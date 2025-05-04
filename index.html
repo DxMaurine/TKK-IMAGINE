@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
-    <script>
-        // Cek apakah pengguna sudah memasukkan akses key
-        const accessKey = localStorage.getItem("accessKey");
+   <script>
+    const accessKey = sessionStorage.getItem("accessKey");
 
-        if (!accessKey) {
-            // Jika belum, arahkan ke halaman login
-            window.location.href = "login.html";
-        }
-    </script>
+    if (!accessKey) {
+        window.location.href = "login.html"; // Redirect jika tidak ada akses key
+    }
+</script>
+
 </head>
 <body>
     <h1>Selamat Datang di Halaman Utama!</h1>
