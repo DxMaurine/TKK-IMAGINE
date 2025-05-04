@@ -8,40 +8,52 @@ body {
 }
 
 .login-container {
-    background: linear-gradient(145deg, #ffffff, #e3e3e3);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(255, 255, 255, 0.6);
+    background: linear-gradient(145deg, #222, #444);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5), inset 5px 5px 10px rgba(255, 255, 255, 0.2);
     text-align: center;
-    transform: perspective(500px) rotateX(3deg);
+    transform: perspective(500px) rotateX(8deg);
+    transition: 0.3s ease-in-out;
+}
+
+.login-container:hover {
+    transform: perspective(500px) rotateX(0deg) scale(1.05);
 }
 
 h2 {
-    color: #333;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 input {
-    padding: 10px;
-    margin: 10px;
+    padding: 12px;
+    margin: 12px;
     width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.1), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
-    background: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.2), inset 3px 3px 6px rgba(255, 255, 255, 0.3);
+    color: white;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     background: linear-gradient(145deg, #007bff, #0056b3);
     border: none;
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), inset 2px 2px 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4), inset 3px 3px 8px rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease-in-out;
 }
 
 button:hover {
     background: linear-gradient(145deg, #0056b3, #004080);
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
