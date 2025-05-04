@@ -4,8 +4,10 @@ function validateAccess() {
 
     if (accessKey === correctKey) {
         alert("Akses diterima!");
+        localStorage.setItem("accessKey", accessKey); // Simpan akses key
         window.location.href = "index.html"; // Redirect ke halaman utama
     } else {
         alert("Akses key salah!");
     }
 }
+
