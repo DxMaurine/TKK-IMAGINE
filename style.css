@@ -1,59 +1,203 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    overflow: hidden;
+}
+
+/* Animated background elements */
+body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(105, 234, 203, 0.1) 0%,
+        rgba(234, 204, 248, 0.1) 48%,
+        rgba(102, 84, 241, 0.1) 100%
+    );
+    animation: rotate 20s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .login-container {
-    background-image: linear-gradient(to right, #434343 0%, black 100%);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5), inset 5px 5px 10px rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     text-align: center;
-    transform: perspective(500px) rotateX(8deg);
-    transition: 0.3s ease-in-out;
+    width: 350px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .login-container:hover {
-    transform: perspective(500px) rotateX(0deg) scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated stripline effect */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00fffc, #00fffc, transparent);
+    animation: stripline 3s linear infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes stripline {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Success animation (shown when access granted) */
+.login-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #00ff00, #00ff88, #00ff00);
+    animation: successStripline 2s linear infinite;
+}
+
+@keyframes successStripline {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* Loading animation */
+.loading-animation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    animation: loading 1.5s ease-in-out infinite;
+    display: none;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 h2 {
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #00ff88, #0088ff);
+    border-radius: 3px;
 }
 
 input {
-    padding: 12px;
-    margin: 12px;
-    width: 80%;
+    padding: 15px;
+    margin: 15px 0;
+    width: 100%;
     border: none;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.2), inset 3px 3px 6px rgba(255, 255, 255, 0.3);
-    color: white;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: #333;
     outline: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+input:focus {
+    border-color: #00ff88;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
 }
 
 input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #aaa;
 }
 
 button {
-    padding: 12px 25px;
-    background: linear-gradient(145deg, #007bff, #0056b3);
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #00ff88 0%, #0088ff 100%);
     border: none;
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4), inset 3px 3px 8px rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 136, 255, 0.4);
+    position: relative;
+    overflow: hidden;
 }
 
 button:hover {
-    background: linear-gradient(145deg, #0056b3, #004080);
-    transform: scale(1.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 136, 255, 0.6);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    transition: all 0.3s ease;
+}
+
+button:hover::after {
+    left: 100%;
+}
+
+/* Add this class via JavaScript when access is granted */
+.access-granted {
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+    to {
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+    }
 }
