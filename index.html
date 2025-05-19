@@ -4,30 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
-    <style>
-        #login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+    <script>
+        // Periksa apakah accessKey ada di sessionStorage
+        const accessKey = sessionStorage.getItem("accessKey");
+        
+        // Jika TIDAK ada (!accessKey), redirect ke login.html
+        if (!accessKey) {
+            window.location.href = "login.html";
         }
-    </style>
+    </script>
 </head>
 <body>
-    <!-- Tempat untuk menampilkan login.html -->
-    <div id="login-container"></div>
+    <!-- Konten halaman utama di sini -->
+    <h1>Selamat datang di TKK IMAGEN TOOL V.3! 🎉</h1>
+    <p>Anda berhasil login dengan akses key: <span id="displayKey"></span></p>
 
     <script>
-        // Memuat login.html dan menampilkannya di dalam div
-        fetch('login.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('login-container').innerHTML = html;
-            })
-            .catch(error => {
-                console.error("Gagal memuat login.html:", error);
-            });
+        // Menampilkan accessKey di halaman (opsional)
+        document.getElementById("displayKey").textContent = accessKey;
     </script>
 </body>
 </html>
