@@ -27,5 +27,14 @@ function validateAccess() {
         }, 1000);
     }
 }
+const togglePassword = document.getElementById('togglePassword');
+const accessKeyInput = document.getElementById('accessKey');
+
+togglePassword.addEventListener('click', function () {
+    const type = accessKeyInput.type === 'password' ? 'text' : 'password';
+    accessKeyInput.type = type;
+    this.textContent = type === 'password' ? '👁️' : '🙈';
+});
+
 
 
