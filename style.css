@@ -175,3 +175,23 @@ button:hover::after {
         box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
     }
 }
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding-right: 45px;
+}
+
+.toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #888;
+    user-select: none;
+}
