@@ -177,11 +177,11 @@ button:hover::after {
 }
 .input-wrapper {
     position: relative;
-    width: 86%;
+    width: 95%;
 }
 
 .input-wrapper input {
-    width: 86%;
+    width: 95%;
     padding: 15px;
     padding-right: 45px;
     border: none;
