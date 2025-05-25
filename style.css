@@ -38,7 +38,7 @@ body::before {
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 350px;
+    width: 300px;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
