@@ -177,12 +177,20 @@ button:hover::after {
 }
 .input-wrapper {
     position: relative;
-    width: 100%;
+    width: 80%;
 }
 
 .input-wrapper input {
-    width: 100%;
+    width: 80%;
+    padding: 15px;
     padding-right: 45px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: #333;
+    outline: none;
+    font-size: 16px;
 }
 
 .toggle-icon {
