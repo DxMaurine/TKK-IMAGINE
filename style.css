@@ -177,11 +177,11 @@ button:hover::after {
 }
 .input-wrapper {
     position: relative;
-    width: 90%;
+    width: 87%;
 }
 
 .input-wrapper input {
-    width: 90%;
+    width: 87%;
     padding: 15px;
     padding-right: 45px;
     border: none;
@@ -196,7 +196,7 @@ button:hover::after {
 .toggle-icon {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 10px;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 18px;
