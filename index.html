@@ -2930,8 +2930,8 @@ async function generateAiImage() {
         const downloadBtn = resultImageContainer.querySelector(".download-image-btn");
         
         // Hide regenerate and download buttons
-        regenerateBtn.hidden = true;
-        downloadBtn.hidden = true;
+        regenerateBtn.hidden = false;
+        downloadBtn.hidden = false;
         
         // Create loading indicator
         const loadingIndicator = document.createElement("div");
