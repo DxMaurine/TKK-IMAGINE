@@ -3350,8 +3350,8 @@ async function generateAiImage() {
             resultImage.hidden = false;
             
             // Show the buttons
-            regenerateBtn.hidden = false;
-            downloadBtn.hidden = false;
+            regenerateBtn.hidden = true;
+            downloadBtn.hidden = true;
             
             globalNotif.success("Gambar berhasil dihasilkan ulang!", 3000, true, statusMessage);
             
@@ -3385,8 +3385,8 @@ async function generateAiImage() {
         }
         
         resultImage.hidden = false;
-        regenerateBtn.hidden = false;
-        downloadBtn.hidden = false;
+        regenerateBtn.hidden = true;
+        downloadBtn.hidden = true;
         
         isGenerating = false;
       }
