@@ -3035,8 +3035,8 @@ async function generateAiImage() {
                     resultImage.hidden = false;
                     
                     // Show the regenerate and download buttons
-                    regenerateBtn.hidden = false;
-                    downloadBtn.hidden = false;
+                    regenerateBtn.hidden = true;
+                    downloadBtn.hidden = true;
                     
                     updateStatus({
                         data: {
@@ -3280,7 +3280,7 @@ async function generateAiImage() {
       // Hide buttons and image
       regenerateBtn.hidden = true;
       downloadBtn.hidden = true;
-      resultImage.hidden = true;
+      resultImage.hidden = false;
       
       // Create loading indicator
       const loadingIndicator = document.createElement("div");
