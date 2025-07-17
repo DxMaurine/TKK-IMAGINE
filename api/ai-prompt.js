@@ -1,12 +1,8 @@
-// AI Prompt Generator untuk TKK-IMAGINE
 
-// Token API disimpan sebagai konstanta
-// AI Prompt Generator untuk TKK-IMAGINE
-
-// Token API disimpan dengan cara yang lebih aman
 const API_TOKEN = (function() {
-    // Gunakan nilai default jika tidak ada konfigurasi
-    return "POLI_TOKEN_KEY"; // Ganti dengan token yang benar saat deployment
+    // Decode token yang dienkripsi sederhana
+    const encoded = "SVU2T0JCLXBGM2hLWlZXQw=="; 
+    return atob(encoded);
 })();
 
 // Daftar kategori untuk prompt acak
