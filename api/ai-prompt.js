@@ -87,9 +87,8 @@ async function aiPromptGenerator() {
             body: JSON.stringify(data)
         };
         
-        // Tambahkan parameter acak ke URL untuk menghindari caching
-        const timestamp = new Date().getTime();
-        const apiUrl = `https://text.pollinations.ai/openai?token=${API_TOKEN}&random=${timestamp}&seed=${randomSeed}`;
+        // Gunakan API proxy lokal alih-alih langsung ke pollinations
+        const apiUrl = `/api/proxy`; // Path ke API route di Vercel
         const response = await fetch(apiUrl, options);
         
         if (!response.ok) {
