@@ -6,7 +6,7 @@
 // Token API disimpan dengan cara yang lebih aman
 const API_TOKEN = (function() {
     // Gunakan nilai default jika tidak ada konfigurasi
-    return "POLI-TOKEN"; // Ganti dengan token yang benar saat deployment
+    return "POLI_TOKEN_KEY"; // Ganti dengan token yang benar saat deployment
 })();
 
 // Daftar kategori untuk prompt acak
