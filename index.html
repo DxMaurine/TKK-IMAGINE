@@ -41,9 +41,7 @@
 
              <div class="prompt-container">
                 <textarea id="promptInput" placeholder="Tulis Prompt Disini..."></textarea>
-                <div class="prompt-preview">
-                    <p>Final Prompt: <span id="finalPromptDisplay">Prompt Anda akan muncul di sini...</span></p>
-                </div>
+                
             </div>
                 <div class="tombolcp">
                     <button id="copyPaste" onclick="copyFinalPrompt()" title="Copy prompt" style="border: 1px solid var(--border-color);">
@@ -87,7 +85,7 @@
                 <div class="option-row">
                     <label for="enhanceCheck">Tingkatkan Kualitas:</label>
                     <input type="checkbox" id="enhanceCheck">
-                    <span class="tooltip">Optimasi prompt dengan model AI</span>
+                    <span class="tooltip">⚡Prompt Magic</span>
                 </div>
             </div>
             
@@ -151,6 +149,9 @@
     </div>
 </div>
 <div class="controls">
+<div class="prompt-preview">
+                    <p>Final Prompt: <span id="finalPromptDisplay">Prompt Anda akan muncul di sini...</span></p>
+                </div>
 <button id="generateBtn" onclick="generateAiImage()">Generate Gambar</button>
                     
 </div>
