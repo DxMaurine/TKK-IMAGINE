@@ -4,11 +4,14 @@
 // AI Prompt Generator untuk TKK-IMAGINE
 
 // Token API disimpan dengan cara yang lebih aman
-// Token API disimpan dengan cara yang lebih tersembunyi
+// Token API disimpan dengan cara yang lebih aman untuk Vercel
 const API_TOKEN = (function() {
-    // Decode token yang dienkripsi sederhana
-    const encoded = "SVU2T0JCLXBGM2hLWlZXQw=="; 
-    return atob(encoded);
+    // Cek apakah berjalan di browser atau di Vercel
+    if (typeof process !== 'undefined' && process.env && process.env.POLLINATIONS_API_TOKEN) {
+        return process.env.POLLINATIONS_API_TOKEN;
+    }
+    // Fallback untuk pengembangan lokal
+    return ;
 })();
 
 // Daftar kategori untuk prompt acak
