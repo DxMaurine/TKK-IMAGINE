@@ -811,7 +811,155 @@ async function downloadHistory() {
     }
 }
 
-// Function to preview image from history with detailed info
+
+// Fungsi untuk preview gambar yang diperbaiki
+function previewImage(imgElement) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  
+  if (!modal || !modalImg) {
+    console.error('Modal elements not found');
+    return;
+  }
+  
+  // Simpan URL gambar di localStorage untuk digunakan oleh fungsi download dan share
+  localStorage.setItem('currentPreviewImageUrl', imgElement.src);
+  
+  modalImg.src = imgElement.src;
+  modal.style.display = 'block';
+  
+  // Nonaktifkan scroll pada body saat modal terbuka
+  document.body.style.overflow = 'hidden';
+}
+
+// Fungsi untuk download gambar dari modal
+function downloadModalImage() {
+  // Dapatkan URL gambar dari modal langsung, bukan dari localStorage
+  const modalImg = document.getElementById('modalImage');
+  const imageUrl = modalImg.src;
+  
+  if (!imageUrl || imageUrl === '') {
+    globalNotif.error('Tidak ada gambar untuk diunduh');
+    return;
+  }
+  
+  // Tampilkan notifikasi proses
+  globalNotif.info('Mempersiapkan unduhan...');
+  
+  // Metode 1: Gunakan FileSaver.js (metode paling kompatibel)
+  try {
+    // Buat elemen canvas untuk mengkonversi gambar
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Buat gambar baru untuk mendapatkan dimensi yang benar
+    const img = new Image();
+    img.crossOrigin = 'Anonymous'; // Penting untuk CORS
+    
+    img.onload = function() {
+      // Set ukuran canvas sesuai gambar
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      // Gambar ke canvas
+      ctx.drawImage(img, 0, 0);
+      
+      // Konversi ke blob dan download
+      canvas.toBlob(function(blob) {
+        // Buat nama file
+        const fileName = 'tkk-imagen-' + new Date().getTime() + '.png';
+        
+        // Buat link download
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = URL.createObjectURL(blob);
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        
+        // Klik link untuk download
+        link.click();
+        
+        // Bersihkan
+        setTimeout(function() {
+          URL.revokeObjectURL(link.href);
+          document.body.removeChild(link);
+          globalNotif.success('Gambar berhasil diunduh!');
+        }, 100);
+      }, 'image/png');
+    };
+    
+    img.onerror = function() {
+      console.error('Error loading image for download');
+      globalNotif.error('Gagal memuat gambar untuk diunduh');
+      
+      // Coba metode fallback
+      downloadWithFallback(imageUrl);
+    };
+    
+    // Mulai proses dengan memuat gambar
+    img.src = imageUrl;
+    
+  } catch (error) {
+    console.error('Error in canvas download method:', error);
+    // Coba metode fallback
+    downloadWithFallback(imageUrl);
+  }
+}
+
+// Fungsi fallback untuk download
+function downloadWithFallback(imageUrl) {
+  try {
+    // Metode 2: Fallback ke metode tradisional
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'tkk-imagen-' + new Date().getTime() + '.png';
+    link.target = '_self'; // Penting: gunakan _self bukan _blank
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    globalNotif.success('Gambar berhasil diunduh dengan metode alternatif!');
+  } catch (fallbackError) {
+    console.error('Fallback download failed:', fallbackError);
+    globalNotif.error('Gagal mengunduh gambar. Coba cara lain.');
+  }
+}
+
+
+// Fungsi untuk berbagi gambar ke media sosial
+function shareImage(platform) {
+  const imageUrl = localStorage.getItem('currentPreviewImageUrl');
+  if (!imageUrl) {
+    showGlobalNotif('Tidak ada gambar untuk dibagikan', 'error');
+    return;
+  }
+  
+  let shareUrl = '';
+  const text = encodeURIComponent('Gambar yang dibuat dengan TKK IMAGEN');
+  
+  switch (platform) {
+    case 'facebook':
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${text}`;
+      break;
+    case 'twitter':
+      shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(imageUrl)}`;
+      break;
+    case 'whatsapp':
+      shareUrl = `https://api.whatsapp.com/send?text=${text} ${encodeURIComponent(imageUrl)}`;
+      break;
+    case 'telegram':
+      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(imageUrl)}&text=${text}`;
+      break;
+    default:
+      showGlobalNotif('Platform tidak didukung', 'error');
+      return;
+  }
+  
+  // Buka jendela baru untuk berbagi
+  window.open(shareUrl, '_blank', 'width=600,height=400');
+  showGlobalNotif(`Membagikan ke ${platform}`, 'info');
+}
+
 function previewHistoryImage(imageUrl, prompt, style, size, seed) {
     let modal = document.getElementById('historyModal');
     
@@ -1663,13 +1811,15 @@ async function generateAiImage() {
     
     
   
-      function closeModal() {
-        // Misal kamu punya modal dengan class "modal"
-        const modal = document.querySelector('.modal');
-        if (modal) {
-          modal.style.display = 'none';
-        }
+      // Fungsi untuk menutup modal
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      if (modal) {
+        modal.style.display = 'none';
+        // Aktifkan kembali scroll pada body
+        document.body.style.overflow = 'auto';
       }
+    }
       
 
       
@@ -1690,42 +1840,16 @@ async function generateAiImage() {
 
     
         window.onload = function () {
-        window.previewImage = function(imgElement) {
-        // Cek apakah modal sudah ada
-        let modal = document.getElementById('imageModal');
-        let modalImg = document.getElementById('modalImage');
-    
-        // Jika belum ada, buat modal secara dinamis
-        if (!modal) {
-          modal = document.createElement('div');
-          modal.id = 'imageModal';
-          modal.className = 'modal';
-          modal.innerHTML = `
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="modalImage">
-          `;
-          document.body.appendChild(modal);
-          modalImg = document.getElementById('modalImage');
-        }
-    
-        modal.style.display = 'block';
-        modalImg.src = imgElement.src;
-        };
-    
-        window.closeModal = function () {
-        const modal = document.getElementById('imageModal');
-        if (modal) {
-          modal.style.display = 'none';
-            }
-        };
-    
-      // Klik di luar gambar juga menutup modal
-      window.onclick = function(event) {
-        const modal = document.getElementById('imageModal');
-        if (event.target === modal) {
-          modal.style.display = 'none';
-            }
-         };
-        };
+      // Tidak perlu mendefinisikan ulang fungsi yang sudah ada di global scope
+      // Cukup pastikan event listener untuk modal berfungsi
+      const modal = document.getElementById('imageModal');
+      if (modal) {
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+      }
+    };
       
     
