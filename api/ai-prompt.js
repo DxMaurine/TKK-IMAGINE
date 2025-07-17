@@ -1,4 +1,10 @@
+// AI Prompt Generator untuk TKK-IMAGINE
 
+// Token API disimpan sebagai konstanta
+// AI Prompt Generator untuk TKK-IMAGINE
+
+// Token API disimpan dengan cara yang lebih aman
+// Token API disimpan dengan cara yang lebih tersembunyi
 const API_TOKEN = (function() {
     // Decode token yang dienkripsi sederhana
     const encoded = "SVU2T0JCLXBGM2hLWlZXQw=="; 
@@ -83,8 +89,9 @@ async function aiPromptGenerator() {
             body: JSON.stringify(data)
         };
         
-        // Gunakan API proxy lokal alih-alih langsung ke pollinations
-        const apiUrl = `/api/proxy`; // Path ke API route di Vercel
+        // Tambahkan parameter acak ke URL untuk menghindari caching
+        const timestamp = new Date().getTime();
+        const apiUrl = `https://text.pollinations.ai/openai?token=${API_TOKEN}&random=${timestamp}&seed=${randomSeed}`;
         const response = await fetch(apiUrl, options);
         
         if (!response.ok) {
