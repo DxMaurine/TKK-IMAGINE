@@ -11,25 +11,26 @@ function previewHistoryImage(imageUrl, theme = 'light') {
     if (isMobile) {
         // Create warning modal
         const warningModal = document.createElement('div');
-        warningModal.id = 'mobile-warning-modal';
-        warningModal.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg-color);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow-convex);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(8px);
-            z-index: 10000;
-            max-width: 90%;
-            text-align: center;
-            transition: var(--transition);
-            background-image: var(--gradient-light);
-        `;
-        
+warningModal.id = 'mobile-warning-modal';
+warningModal.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-convex);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    transition: var(--transition);
+    background-image: var(--gradient-light);
+`;
+ 
         warningModal.innerHTML = `
             <h3 style="color: var(--text-color); margin-bottom: 15px;">⚠️ Mobile Device Detected</h3>
             <p style="color: var(--text-color); margin-bottom: 20px; font: poppins, sans-serif; font-weight: normal;">
