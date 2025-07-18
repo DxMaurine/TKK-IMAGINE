@@ -15,7 +15,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
         warningModal.style.cssText = `
             position: fixed;
             top: 50%;
-            left: 80%;
+            left: 50%;
             transform: translate(-50%, -50%);
             background: var(--bg-color);
             padding: 20px;
@@ -24,7 +24,6 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             border: 1px solid var(--border-color);
             backdrop-filter: blur(8px);
             z-index: 10000;
-            width: 150px;
             max-width: 90%;
             text-align: center;
             transition: var(--transition);
