@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TKK-IMAGEN V.3.5</title>
-   <!-- AI Prompt Generator Script -->
-    
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- AI Prompt Generator Script -->
-<!--script src="script.js"></script-->
+<!-- AI Prompt Generator Script -->
+<script src="script.js"></script>
 <script src="main.js"></script>
 <script src="api/ai-prompt.js"></script>
 <script src="preview.js"></script>
@@ -20,11 +18,135 @@
 <div id="globalNotifContainer"></div>
 
 <div class="header-content">
-    <div class="title-container">
-        <h1 id="titleEl"><img src="assests/magic-wand.png" alt="TKK Logo" class="header-icon">TKK IMAGEN V3.5</h1>
-        <span class="tagline">Where Imagination Becomes Reality</span>
-    </div>
+    <nav class="bottom-navbar">
+        <a href="#gallery" class="nav-item">
+            <i class="fas fa-images"></i>
+            <span>Gallery</span>
+        </a>
+        <a href="#community" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+        </a>
+        <a href="#settings" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#donate" class="nav-item">
+            <i class="fas fa-heart" style="color: rgb(255, 0, 0);"></i>
+            <span>Donate</span>
+        </a>
+        <button class="scroll-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </nav>
 </div>
+
+<style>
+.bottom-navbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background: rgba(71, 71, 71, 0.7); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover::before {
+    transform: scale(1);
+}
+
+.nav-item:hover {
+    color: rgb(82, 183, 255);
+    transform: translateY(-5px);
+    text-shadow: 0 0 10px rgba(82, 183, 255, 0.5);
+}
+
+.nav-item i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.nav-item span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.scroll-top {
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: floatButton 3s ease-in-out infinite;
+}
+
+
+
+.scroll-top:hover {
+    background: rgba(82, 183, 255, 0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 32px rgba(82, 183, 255, 0.3);
+    color: rgb(82, 183, 255);
+}
+</style>
+
+<script>
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+</script>
 
 <!-- Theme switch button di bawah header -->
 <div class="theme-switch-container">
@@ -228,7 +350,10 @@
     padding: 0 20px;
     background: var(--bg-tertiary);
 }
-
+  
+              
+            
+          
 .accordion-item.active .accordion-content {
     max-height: 300px;
     padding: 20px;
@@ -276,6 +401,7 @@
                     <button id="addContainerBtn" onclick="addImageContainer()">+ Tambah Container</button>
                     <button id="resetContainerBtn" onclick="resetLastContainer()">↺ Reset</button>
                 </div>
+            </div>
             </div>
                  <!-- Image History Container -->
                 <div class="history-container">
@@ -375,82 +501,7 @@
     
     
     /* Gaya untuk header yang lebih stylist */
-    .header-content {
-        background: var(--gradient-light);
-        padding: 20px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow-convex);
-        margin-bottom: 25px;
-        position: relative;
-        overflow: hidden;
-    }
 
-    .header-content::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-        transform: rotate(45deg);
-        animation: shine 3s infinite;
-        pointer-events: none;
-    }
-
-    .title-container {
-        position: relative;
-        z-index: 5;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-
-    h1 {
-        color: var(--text-color-dark);
-        font-size: 2.2rem;
-        font-weight: 600;
-        margin: 0;
-        letter-spacing: 1px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1), -2px -2px 4px rgba(255,255,255,0.3);
-    }
-
-    .header-icon {
-        height: 40px;
-        width: auto;
-        margin-right: 15px;
-        filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
-        animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-    }
-
-    .tagline {
-        font-size: 1rem;
-        color: var(--text-color);
-        font-style: italic;
-        opacity: 0.8;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-        background-size: 200% 1px;
-        background-position: 0% 100%;
-        background-repeat: no-repeat;
-        padding-bottom: 5px;
-        animation: slide-bg 3s linear infinite;
-    }
-
-    @keyframes slide-bg {
-        0% { background-position: 0% 100%; }
-        100% { background-position: 200% 100%; }
-    }
     
     /* Gaya untuk sistem notifikasi global */
     #globalNotifContainer {
@@ -557,7 +608,7 @@
       --gradient-light: linear-gradient(135deg, #ebebeb, #d4d4d4);
       --gradient-dark: linear-gradient(135deg, #d4d4d4, #ebebeb);
       --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      --accent-color: #7c3aed; /* Modern purple accent */
+      --accent-color: #3179ff; /* Modern purple accent */
       --accent-secondary: #06b6d4; /* Teal accent for contrast */
     }
     
@@ -592,7 +643,9 @@
       transition: background-color 0.3s, color 0.3s;
       min-height: 100vh;
       position: relative;
-      /* Hapus padding-bottom: 80px; */
+      overflow-y: scroll; /* Added scroll height */
+      height: 100%;
+      padding-bottom: 120px;
     }
     
     /* Header with title - enhanced 3D */
@@ -729,8 +782,8 @@
     
     /* Main content container */
     main {
-      max-width: 600px;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 50px auto;
       padding: 0 15px;
     }
     
@@ -2079,27 +2132,17 @@
     }
   </style>
     
-   
-      
     <!-- Modal Preview -->
     <div id="imagePreviewModal" class="modal" onclick="closePreview()" style="display:none;">
       <span class="close-button" onclick="closePreview(event)">&times;</span>
       <img class="modal-content" id="previewedImage">
     </div>
-    
-      
-    
-    
-    
-      
-      
-
     <style>
 
     /* footer*/
 
     .custom-footer {
-      margin-top: 60px;
+      margin-top: 30px;
       padding: 20px;
       text-align: center;
       font-size: 14px;
@@ -2127,12 +2170,7 @@
       }
     }
 
-
-    /* Modal Canvas Editor */
-     
     </style>
-
-
 
     </body>
     
