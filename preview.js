@@ -15,7 +15,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
         warningModal.style.cssText = `
             position: fixed;
             top: 50%;
-            left: 50%;
+            left: 80%;
             transform: translate(-50%, -50%);
             background: var(--bg-color);
             padding: 20px;
@@ -55,13 +55,14 @@ function previewHistoryImage(imageUrl, theme = 'light') {
                     color: var(--text-color);
                     margin-right: 8px;
                     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
-                    padding: 5px;
+                    margin-bottom: 5px;
                 }
                 
                 .warning-btn.close {
                     background: var(--accent-secondary);
                     color: var(--text-color);
                     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+                    margin-top: 5px;
                 }
 
                 .warning-btn:hover {
