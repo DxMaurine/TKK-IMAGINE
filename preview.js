@@ -24,6 +24,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             border: 1px solid var(--border-color);
             backdrop-filter: blur(8px);
             z-index: 10000;
+            width: 150px;
             max-width: 90%;
             text-align: center;
             transition: var(--transition);
@@ -54,6 +55,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
                     color: var(--text-color);
                     margin-right: 8px;
                     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+                    padding: 5px;
                 }
                 
                 .warning-btn.close {
