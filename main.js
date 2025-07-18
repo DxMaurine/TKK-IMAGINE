@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
  
         // Periksa apakah accessKey ada di sessionStorage
-        const accessKey = sessionStorage.getItem("accessKey");
+        //const accessKey = sessionStorage.getItem("accessKey");
         
         // Jika TIDAK ada (!accessKey), redirect ke login.html
-        if (!accessKey) {
-            window.location.href = "login.html";
-        }
+        //if (!accessKey) {
+            //window.location.href = "login.html";
+        //}
 
        
 function toggleAccordion(button) {
