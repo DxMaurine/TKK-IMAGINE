@@ -10,12 +10,11 @@ function previewHistoryImage(imageUrl, theme = 'light') {
     modal.innerHTML = `
       <div class="canvas-modal-content neumorphic">
         <style>
-        
           .canvas-modal {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 98%;
             height: 100%;
             background: var(--highlight-color);
             display: flex;
@@ -26,26 +25,45 @@ function previewHistoryImage(imageUrl, theme = 'light') {
           }
           .canvas-modal-content {
             background: var(--bg-color);
-            padding: 15px;
+            padding: 12px;
             border-radius: var(--border-radius);
             position: relative;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             box-shadow: var(--box-shadow-convex);
+            width: relative auto;
+            max-width: 1400px;
           }
           .canvas-panel {
-            padding: 12px;
+            padding: 10px;
             border-radius: var(--border-radius);
             display: flex;
             flex-direction: column;
             gap: 8px;
+            align-items: center;
+          }
+          .canvas-panel.center {
+            flex: 1;
+            min-width: 0;
           }
           .canvas-panel.left, .canvas-panel.right {
-            width: 180px;
+            width: 100%;
+          }
+          .canvas-action {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
           }
           .neumorphic-panel {
             background: var(--bg-color);
             box-shadow: var(--box-shadow-concave);
+          }
+          .neumorphic-canvas {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
           }
           .neumorphic-btn {
             padding: 8px;
@@ -57,7 +75,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             cursor: pointer;
             box-shadow: var(--box-shadow-convex);
             transition: var(--transition);
-            font-size: 0.9em;
+            font-size: 0.85em;
           }
           .neumorphic-btn:active {
             box-shadow: var(--box-shadow-pressed);
@@ -74,16 +92,27 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             color: var(--text-color);
             text-align: center;
             margin: 0;
-            font-size: 0.95em;
+            font-size: 0.9em;
           }
-          .neumorphic-input, .neumorphic-color {
+          .neumorphic-input {
             padding: 8px;
             border: none;
             border-radius: var(--border-radius);
             background: var(--bg-color);
             color: var(--text-color);
             box-shadow: var(--box-shadow-concave);
-            font-size: 0.9em;
+            font-size: 14px;
+            width: 70%;
+          }
+          .neumorphic-color {
+            padding: 8px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            color: var(--text-color);
+            box-shadow: var(--box-shadow-concave);
+            font-size: 14px;
+            width: 40%;
           }
           .neumorphic-range {
             width: 100%;
@@ -96,7 +125,7 @@ function previewHistoryImage(imageUrl, theme = 'light') {
           .neumorphic-radio-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
           }
           .neumorphic-radio {
             display: flex;
@@ -104,25 +133,94 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             gap: 4px;
             cursor: pointer;
             color: var(--text-color);
-            font-size: 0.85em;
+            font-size: 0.8em;
           }
           .neumorphic-close {
             position: absolute;
-            top: -12px;
-            right: -12px;
-            width: 25px;
-            height: 25px;
+            top: -10px;
+            right: -10px;
+            width: 22px;
+            height: 22px;
             border: none;
             border-radius: 50%;
             background: var(--bg-color);
             color: var(--text-color);
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
             box-shadow: var(--box-shadow-convex);
             transition: var(--transition);
           }
           .neumorphic-close:active {
             box-shadow: var(--box-shadow-pressed);
+          }
+          
+          .mobile-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 370px;
+            margin: 0 auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 0 5px;
+          }
+          .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 5px;
+          }
+          .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+          }
+
+          @media (min-width: 371px) {
+            .canvas-modal-content {
+              padding: 10px;
+              gap: 10px;
+            }
+            .mobile-wrapper {
+              padding: 0 8px;
+            }
+            .controls-wrapper {
+              padding: 0 8px;
+            }
+            .filter-grid {
+              grid-template-columns: repeat(5, 1fr);
+              gap: 8px;
+            }
+            .neumorphic-btn,
+            .neumorphic-input,
+            .neumorphic-text {
+              font-size: 0.9em;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .mobile-wrapper {
+              flex-direction: row;
+              max-width: none;
+              overflow: hidden;
+              padding: 10px;
+              gap: 15px;
+            }
+            .controls-wrapper {
+              width: 280px;
+              padding: 0;
+            }
+            .canvas-panel.center {
+              flex: 1;
+              min-width: 0;
+            }
+            .neumorphic-canvas {
+              max-height: 75vh;
+            }
+            .canvas-panel {
+              padding: 12px;
+            }
           }
         </style>
         <div class="mobile-wrapper">
@@ -157,10 +255,19 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             <div class="canvas-panel neumorphic-panel">
               <h3 class="neumorphic-text">Watermark</h3>
               <input type="text" id="wm-text" class="neumorphic-input" placeholder="Teks watermark" />
-              <input type="color" id="wm-color" class="neumorphic-color" value="#ffffff" />
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="color" id="wm-color" class="neumorphic-color" value="#ffffff" />
+                <select id="wm-font-family" class="neumorphic-input" style="flex: 1;">
+                  <option value="Arial Bold">Arial Bold</option>
+                  <option value="Impact">Impact</option>
+                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Comic Sans MS">Comic Sans MS</option>
+                </select>
+              </div>
               <label class="neumorphic-label">
                 Font Size
-                <input type="range" id="wm-font-size" class="neumorphic-range" min="24" max="100" value="24" />
+                <input type="range" id="wm-font-size" class="neumorphic-range" min="50" max="300" value="24" />
               </label>
               <label class="neumorphic-label">
                 Opacity 
@@ -169,87 +276,46 @@ function previewHistoryImage(imageUrl, theme = 'light') {
               <div id="wm-anchor" class="neumorphic-radio-group">
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="tl" checked />
-                  <span class="radio-label">↖️</span>
+                  <span class="radio-label">↖kiri atas</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="tc" />
-                  <span class="radio-label">⬆️</span>
+                  <span class="radio-label">⬆atas</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="tr" />
-                  <span class="radio-label">↗️</span>
+                  <span class="radio-label">↗kanan atas</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="cl" />
-                  <span class="radio-label">⬅️</span>
+                  <span class="radio-label">⬅tengah kiri</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="cc" />
-                  <span class="radio-label">⚪</span>
+                  <span class="radio-label">🔄tengah </span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="cr" />
-                  <span class="radio-label">➡️</span>
+                  <span class="radio-label">➡tengah kanan</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="bl" />
-                  <span class="radio-label">↙️</span>
+                  <span class="radio-label">↙kiri bawah</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="bc" />
-                  <span class="radio-label">⬇️</span>
+                  <span class="radio-label">⬇bawah</span>
                 </label>
                 <label class="neumorphic-radio">
                   <input type="radio" name="anchor" value="br" />
-                  <span class="radio-label">↘️</span>
+                  <span class="radio-label">↘kanan bawah</span>
                 </label>
               </div>
             </div>
           </div>
         </div>
-        <button class="canvas-close neumorphic-close">&times;</button>
-        <style>
-          .mobile-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 0 15px;
-          }
-          .controls-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-          }
-          .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-            gap: 6px;
-          }
-          @media (max-width: 380px) {
-            .mobile-wrapper {
-              padding: 5px;
-              max-width: 100%;
-            }
-            
-            .neumorphic-btn,
-            .neumorphic-input,
-            .neumorphic-text {
-              font-size: 0.8em;
-            }
-          }
-          @media (min-width: 768px) {
-            .mobile-wrapper {
-              flex-direction: row;
-              overflow: hidden;
-              padding: 15px;
-            }
-            .controls-wrapper
-        </style>
+        <button class="canvas-close neumorphic-close" style="color: red; font-size: 1.25rem;">&times;</button>
+
       </div>
     `;
     document.body.appendChild(modal);
@@ -388,9 +454,10 @@ function previewHistoryImage(imageUrl, theme = 'light') {
       ctx.save();
       ctx.globalAlpha = watermark.opacity;
       
-      // Get font size from range input
+      // Get font size and family from inputs
       const fontSize = document.querySelector('#wm-font-size').value;
-      ctx.font = `${fontSize}px Arial`;
+      const fontFamily = document.querySelector('#wm-font-family').value;
+      ctx.font = `${fontSize}px ${fontFamily}`;
       
       ctx.fillStyle = watermark.color;
       let x = 10, y = parseInt(fontSize) + 6; // Adjust y position based on font size
@@ -463,8 +530,12 @@ function previewHistoryImage(imageUrl, theme = 'light') {
       applyAll(); 
     };
     
-    // Font size range input handler
+    // Font controls handlers
     modal.querySelector('#wm-font-size').oninput = e => {
+      applyAll();
+    };
+
+    modal.querySelector('#wm-font-family').onchange = e => {
       applyAll();
     };
     
