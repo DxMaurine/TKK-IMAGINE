@@ -52,6 +52,24 @@
         </button>
     </section>
 
+    <!-- Category Filter Section -->
+    <div class="category-filter-section">
+        <div class="category-line">
+            <div class="category-label">
+                <span class="category-text">Gallery</span>
+                <div class="category-divider"></div>
+            </div>
+            <div class="filter-dropdown">
+                <select id="sortFilter" class="filter-select">
+                    <option value="new">New</option>
+                    <option value="latest">Latest</option>
+                    <option value="size">Size</option>
+                    <option value="name">Name</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <!-- Masonry Gallery - Direct to Body -->
     <div class="masonry-gallery" id="masonryGallery">
         <!-- Images will be loaded dynamically with natural aspect ratios -->
@@ -59,7 +77,7 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-navbar">
-        <a href="index.html" class="nav-item active">
+        <a href="#home" class="nav-item active">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             <span>Home</span>
         </a>
@@ -67,11 +85,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
             <span>Generate</span>
         </a>
-        <a href="index.html#library" class="nav-item">
+        <a href="#library" class="nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
             <span>Library</span>
         </a>
-        <a href="index.html#more" class="nav-item">
+        <a href="#more" class="nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
             <span>More</span>
         </a>
@@ -176,6 +194,89 @@
             margin: 0.5rem 0 0;
             font-style: italic;
             text-align: left;
+        }
+
+        /* Category Filter Section */
+        .category-filter-section {
+            margin: 0 1rem 2rem 1rem;
+            padding: 0;
+        }
+
+        .category-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-label {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .category-text {
+            background: var(--bg-color);
+            color: var(--text-color-dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding-right: 1rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .category-divider {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
+            border-radius: 1px;
+            position: relative;
+            margin-left: 0.5rem;
+        }
+
+        .filter-dropdown {
+            position: relative;
+            z-index: 3;
+        }
+
+        .filter-select {
+            background: var(--bg-secondary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: var(--box-shadow-convex);
+            transition: var(--transition);
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            min-width: 120px;
+        }
+
+        .filter-select:hover {
+            transform: translateY(-1px);
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.3);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .filter-dropdown::after {
+            content: '▼';
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color-light);
+            font-size: 0.8rem;
+            pointer-events: none;
         }
 
         /* Action Buttons Section */
@@ -321,7 +422,8 @@
         }
 
         [data-theme="dark"] .switch-handle {
-            left: 25px;
+            left: 26px;
+            background: var(--gradient-dark);
         }
 
         .theme-label {
@@ -336,18 +438,18 @@
         .theme-switch::before {
             content: "☀️";
             position: absolute;
-            left: 5px;
-            top: 1px;
-            font-size: 9px;
+            left: 2px;
+            top: 3px;
+            font-size: 12px;
             opacity: 0.7;
         }
 
         .theme-switch::after {
             content: "🌙";
             position: absolute;
-            right: 5px;
-            top: 1px;
-            font-size: 9px;
+            right: 9px;
+            top: 3px;
+            font-size: 12px;
             opacity: 0.7;
         }
 
@@ -361,17 +463,17 @@
             }
             
             .theme-switch {
-                width: 40px;
-                height: 20px;
+                width: 60px;
+                height: 30px;
             }
             
             .switch-handle {
-                width: 16px;
-                height: 16px;
+                width: 25px;
+                height: 25px;
             }
             
             [data-theme="dark"] .switch-handle {
-                left: 22px;
+                left: 31px;
             }
             
             .theme-label {
@@ -385,7 +487,7 @@
             }
             
             .theme-switch-container {
-                padding: 6px;
+                padding: 8px;
             }
         }
 
@@ -524,6 +626,24 @@
         }
 
         @media (max-width: 480px) {
+            .category-line {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .category-label {
+                justify-content: center;
+            }
+            
+            .category-divider {
+                display: none;
+            }
+            
+            .filter-dropdown {
+                align-self: center;
+            }
+
             .action-btn {
                 flex-direction: column;
                 text-align: center;
@@ -748,8 +868,7 @@
         const imageFiles = [
             'img1.webp', 'img2.webp', 'img3.webp', 'img4.webp',
             'img5.webp', 'img6.webp', 'img7.webp', 'img8.webp',
-            'img9.webp', 'img10.webp', 'img11.webp', 'img12.webp',
-            'img13.webp', 'img14.webp', 'img15.webp', 'img16.webp'
+            'img9.webp', 'img10.webp'
         ];
 
         // Fungsi untuk mengacak array
@@ -833,7 +952,7 @@
                 
                 infoContainer.innerHTML = `
                     <h3 style="color: white; margin-bottom: 0.5rem;">${title}</h3>
-                    ${prompt ? `<p style="color: #ccc; font-size: 0.9rem; line-height: 1.4;">${prompt}</p>` : ''}
+                    ${prompt ? `<p style="color: #ccc; font-size: 0.9rem; line-height: 1.4;">${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}</p>` : ''}
                 `;
 
                 const closeBtn = document.createElement('button');
@@ -873,8 +992,17 @@
 
         // Event listeners untuk action buttons
             document.addEventListener('DOMContentLoaded', function() {
-                // Ganti loadMasonryGallery() dengan loadCombinedGallery()
-                loadCombinedGallery();
+                // Event listener untuk dropdown filter
+                const sortFilter = document.getElementById('sortFilter');
+                if (sortFilter) {
+                    sortFilter.addEventListener('change', function() {
+                        const selectedSort = this.value;
+                        filterAndSortGallery(selectedSort);
+                    });
+                }
+                
+                // Load gallery pertama kali dengan sorting default
+                filterAndSortGallery('new');
                 
                 // Cleanup gambar expired saat load
                 cleanupExpiredImages();
@@ -894,6 +1022,9 @@
             // Bottom Navigation Event Listeners
             setupBottomNavigation();
 
+            // Theme Switch Functionality
+            setupThemeSwitch();
+
             // Theme detection
             const theme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', theme);
@@ -901,27 +1032,41 @@
 
         // Setup Bottom Navigation
         function setupBottomNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Function to set active nav item
+            function setActiveNavItem(activeItem) {
+                // Remove active class from all nav items
+                navItems.forEach(item => item.classList.remove('active'));
+                // Add active class to clicked item
+                activeItem.classList.add('active');
+            }
+            
             // Home button - already on home page, just scroll to top
             document.querySelector('a[href="#home"]').addEventListener('click', function(e) {
                 e.preventDefault();
+                setActiveNavItem(this);
                 scrollToTop();
             });
 
-            // Generate button - go to index.html
-            document.querySelector('a[href="index.html#generate"]').addEventListener('click', function(e) {
+            // Generate button - go to generate.html
+            document.querySelector('a[href="generate.html"]').addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'index.html';
+                setActiveNavItem(this);
+                window.location.href = 'generate.html';
             });
 
             // Library button - placeholder for now
             document.querySelector('a[href="#library"]').addEventListener('click', function(e) {
                 e.preventDefault();
+                setActiveNavItem(this);
                 globalAlert.alert('Fitur Library akan segera hadir!');
             });
 
-            // More button - placeholder for now
+            // More button - placeholder for now 
             document.querySelector('a[href="#more"]').addEventListener('click', function(e) {
                 e.preventDefault();
+                setActiveNavItem(this);
                 globalAlert.alert('Fitur More akan segera hadir!');
             });
         }
@@ -934,19 +1079,7 @@
             }
         });
 
-        // Event listeners untuk action buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            loadMasonryGallery();
 
-            
-
-            // Theme Switch Functionality
-            setupThemeSwitch();
-
-            // Theme detection
-            const theme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-        });
 
         // Theme Switch Setup
         function setupThemeSwitch() {
@@ -1103,19 +1236,7 @@
             }
         }
 
-        // Inisialisasi global instances
-        const globalNotif = new GlobalNotification();
-        const globalAlert = new GlobalAlert();
 
-        // Close alert dengan ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && globalAlert.container.style.display === 'flex') {
-                globalAlert.close();
-                if (globalAlert.resolveCallback) {
-                    globalAlert.resolveCallback(null);
-                }
-            }
-        });
 
         // Fungsi untuk mendapatkan IP pengguna
         async function getUserIP() {
@@ -1192,81 +1313,102 @@
             }
         }
 
-        // Fungsi untuk menggabungkan gallery statis dengan gallery tersinkronisasi
-        async function loadCombinedGallery() {
+        // Fungsi untuk filtering dan sorting gallery
+        async function filterAndSortGallery(sortType = 'new') {
             const masonryGallery = document.getElementById('masonryGallery');
             
             // Kosongkan gallery
             masonryGallery.innerHTML = '';
             
-            // Muat gambar tersinkronisasi dari index.html
+            // Muat gambar tersinkronisasi dan statis
             const syncImages = await loadSyncGallery();
+            const staticImages = imageFiles;
             
-            // Muat gambar statis dari assets
-            const shuffledStaticImages = shuffleArray(imageFiles);
-            
-            // Gabungkan dan acak semua gambar
+            // Gabungkan semua gambar dengan metadata lengkap
             const allImages = [];
             
-            // Tambahkan gambar tersinkronisasi (prioritas tinggi)
-            syncImages.forEach((syncImg, index) => {
+            // Tambahkan gambar tersinkronisasi dengan metadata
+            syncImages.forEach((syncImg) => {
                 allImages.push({
                     type: 'sync',
                     data: syncImg,
-                    priority: 1
+                    timestamp: syncImg.timestamp,
+                    name: syncImg.prompt ? syncImg.prompt.substring(0, 30) : 'Generated Image',
+                    size: 'unknown', // Bisa ditambahkan jika diperlukan
+                    url: syncImg.url,
+                    prompt: syncImg.prompt
                 });
             });
             
-            // Tambahkan gambar statis
-            shuffledStaticImages.forEach((staticImg, index) => {
+            // Tambahkan gambar statis dengan metadata
+            staticImages.forEach((staticImg, index) => {
                 allImages.push({
                     type: 'static',
                     data: staticImg,
-                    priority: 2
+                    timestamp: Date.now() - (index * 1000), // Simulasi timestamp
+                    name: staticImg.replace('.webp', '').replace('img', 'Image '),
+                    size: 'static',
+                    url: `assests/${staticImg}`,
+                    prompt: `Gallery Image ${staticImg}`
                 });
             });
             
-            // Acak array gabungan
-            const shuffledAllImages = shuffleArray(allImages);
+            // Sorting berdasarkan tipe yang dipilih
+            let sortedImages = [...allImages];
             
-            // Render semua gambar
-            shuffledAllImages.forEach((imageItem, index) => {
+            switch(sortType) {
+                case 'new':
+                case 'latest':
+                    sortedImages.sort((a, b) => b.timestamp - a.timestamp);
+                    break;
+                case 'name':
+                    sortedImages.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'size':
+                    // Prioritaskan gambar sync (generated) di atas static
+                    sortedImages.sort((a, b) => {
+                        if (a.type === 'sync' && b.type === 'static') return -1;
+                        if (a.type === 'static' && b.type === 'sync') return 1;
+                        return 0;
+                    });
+                    break;
+                default:
+                    // Default: acak
+                    sortedImages = shuffleArray(sortedImages);
+            }
+            
+            // Render gambar yang sudah diurutkan
+            sortedImages.forEach((imageItem, index) => {
                 const masonryItem = document.createElement('div');
                 masonryItem.className = 'masonry-item';
-                masonryItem.style.animationDelay = `${index * 0.1}s`;
+                masonryItem.style.animationDelay = `${index * 0.05}s`;
                 
                 const img = document.createElement('img');
                 img.loading = 'lazy';
+                img.src = imageItem.url;
+                img.alt = imageItem.name;
                 
                 if (imageItem.type === 'sync') {
-                    // Gambar dari index.html (tersinkronisasi)
-                    img.src = imageItem.data.url;
-                    img.alt = `Generated: ${imageItem.data.prompt.substring(0, 50)}...`;
-                    
                     // Tambahkan badge untuk gambar generated
                     const badge = document.createElement('div');
                     badge.className = 'sync-badge';
                     badge.innerHTML = '<i class="fas fa-magic"></i>';
-                    badge.title = `Generated: ${imageItem.data.prompt}`;
+                    badge.title = `Generated: ${imageItem.prompt}`;
                     masonryItem.appendChild(badge);
                     
                     // Click event untuk preview dengan info lengkap
                     masonryItem.addEventListener('click', () => {
-                        openImagePreview(img.src, `Generated Image`, imageItem.data.prompt);
+                        openImagePreview(img.src, 'Generated Image', imageItem.prompt);
                     });
                 } else {
-                    // Gambar statis dari assets
-                    img.src = `assests/${imageItem.data}`;
-                    img.alt = `Gallery Image ${index + 1}`;
-                    
-                    // Error handling untuk gambar yang tidak ditemukan
+                    // Error handling untuk gambar statis
                     img.onerror = function() {
                         this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
                     };
                     
                     // Click event untuk preview
                     masonryItem.addEventListener('click', () => {
-                        openImagePreview(img.src, `Gallery Image ${index + 1}`);
+                        openImagePreview(img.src, imageItem.name);
                     });
                 }
                 
@@ -1274,10 +1416,18 @@
                 masonryGallery.appendChild(masonryItem);
             });
             
-            // Tampilkan notifikasi jika ada gambar baru
-            if (syncImages.length > 0) {
-                globalNotif.success(`Gallery dimuat dengan ${syncImages.length} gambar generated dan ${shuffledStaticImages.length} gambar statis`);
-            }
+            // Update notifikasi
+            const syncCount = sortedImages.filter(img => img.type === 'sync').length;
+            const staticCount = sortedImages.filter(img => img.type === 'static').length;
+            
+            globalNotif.info(`Gallery diurutkan: ${syncCount} generated, ${staticCount} static - Mode: ${sortType.toUpperCase()}`);
+        }
+        
+        // Update fungsi loadCombinedGallery untuk menggunakan filter
+        async function loadCombinedGallery() {
+            const sortFilter = document.getElementById('sortFilter');
+            const currentSort = sortFilter ? sortFilter.value : 'new';
+            await filterAndSortGallery(currentSort);
         }
 
         // Fungsi untuk menghapus gambar dari sync gallery
@@ -1314,12 +1464,25 @@
                 if (validImages.length !== syncGallery.length) {
                     localStorage.setItem(`syncGallery_${userIP}`, JSON.stringify(validImages));
                     console.log(`Cleaned up ${syncGallery.length - validImages.length} expired images`);
-                }
-            } catch (error) {
-                console.error('Gagal membersihkan gambar expired:', error);
+            }
+        } catch (error) {
+            console.error('Gagal membersihkan gambar expired:', error);
+        }
+    }
+
+    // Inisialisasi global instances
+    const globalNotif = new GlobalNotification();
+    const globalAlert = new GlobalAlert();
+
+    // Close alert dengan ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && globalAlert.container.style.display === 'flex') {
+            globalAlert.close();
+            if (globalAlert.resolveCallback) {
+                globalAlert.resolveCallback(null);
             }
         }
-
+    });
 
     </script>
 </body>
