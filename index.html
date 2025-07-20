@@ -1000,6 +1000,8 @@
                         filterAndSortGallery(selectedSort);
                     });
                 }
+                // Theme Switch Functionality
+                     setupThemeSwitch();
                 
                 // Load gallery pertama kali dengan sorting default
                 filterAndSortGallery('new');
@@ -1024,7 +1026,7 @@
             setupBottomNavigation();
 
             // Theme Switch Functionality
-            setupThemeSwitch();
+            
 
             // Theme detection
             const theme = localStorage.getItem('theme') || 'light';
