@@ -49,6 +49,10 @@
                 <i class="fas fa-th"></i>
                 <span>Semua</span>
             </button>
+            <button class="filter-btn" data-category="my-prompts" onclick="filterCategory('my-prompts')">
+                <i class="fas fa-user"></i>
+                <span>My Prompts</span>
+            </button>
             <button class="filter-btn" data-category="audio" onclick="filterCategory('audio')">
                 <i class="fas fa-volume-up"></i>
                 <span>Audio TTS</span>
@@ -65,6 +69,28 @@
 
         <!-- Prompt Collections -->
         <div class="prompt-collections">
+            <!-- My Prompts Section -->
+            <div class="prompt-section" data-category="my-prompts">
+                <h3 class="section-title">
+                    <i class="fas fa-user"></i>
+                    My Prompts
+                    <span class="prompt-count" id="myPromptsCount">0</span>
+                </h3>
+                <div class="my-prompts-controls">
+                    <button class="control-btn" onclick="clearAllUserPrompts()">
+                        <i class="fas fa-trash"></i>
+                        Clear All
+                    </button>
+                    <button class="control-btn" onclick="exportUserPrompts()">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+                <div class="prompt-grid" id="myPromptsGrid">
+                    <!-- User prompts will be loaded here -->
+                </div>
+            </div>
+            
             <!-- Audio TTS Prompts -->
             <div class="prompt-section" data-category="audio">
                 <h3 class="section-title">
@@ -823,6 +849,99 @@
             box-shadow: var(--box-shadow-convex);
         }
 
+        /* My Prompts Styles */
+        .prompt-count {
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .my-prompts-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: flex-end;
+        }
+
+        .control-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .control-btn i {
+            font-size: 1rem;
+        }
+
+        .user-prompt {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .prompt-meta {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 12px;
+            color: var(--text-color-light);
+        }
+
+        .usage-count, .timestamp {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn.favorited {
+            color: #ff6b6b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-color-light);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
         /* Bottom Navigation */
         .bottom-navbar {
             position: fixed;
@@ -1036,6 +1155,215 @@
 
         .copy-notification.show {
             opacity: 1;
+        }
+
+        /* Global Notification Styles */
+        #globalNotifContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .global-notification {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            padding: 1rem 1.5rem;
+            min-width: 300px;
+            max-width: 400px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .global-notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .global-notification.success {
+            border-left-color: var(--success-color);
+        }
+
+        .global-notification.error {
+            border-left-color: #ef4444;
+        }
+
+        .global-notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .notification-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-message {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-color-light);
+            cursor: pointer;
+            padding: 0.2rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .notification-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-color);
+        }
+
+        /* Global Alert Styles */
+        #globalAlertContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20000;
+            pointer-events: none;
+        }
+
+        .global-alert-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .global-alert-overlay.show {
+            opacity: 1;
+        }
+
+        .global-alert {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            min-width: 400px;
+            max-width: 500px;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .global-alert-overlay.show .global-alert {
+            transform: scale(1);
+        }
+
+        .alert-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert-title {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: var(--text-color-light);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .alert-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-color);
+        }
+
+        .alert-body {
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-message {
+            color: var(--text-color-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .alert-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .alert-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.7rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .alert-btn:hover {
+            background: var(--bg-color);
+        }
+
+        .alert-btn.primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .alert-btn.primary:hover {
+            background: #2563eb;
+        }
+
+        @media (max-width: 480px) {
+            .global-notification {
+                min-width: 280px;
+                max-width: 320px;
+            }
+
+            .global-alert {
+                min-width: 320px;
+                max-width: 350px;
+                margin: 1rem;
+            }
+
+            .alert-footer {
+                flex-direction: column;
+            }
+
+            .alert-btn {
+                width: 100%;
+            }
         }
     </style>
 
@@ -1405,10 +1733,157 @@
             }
         });
 
+        // Load and display user prompts
+        function loadMyPrompts() {
+            const userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+            const grid = document.getElementById('myPromptsGrid');
+            const countElement = document.getElementById('myPromptsCount');
+            
+            countElement.textContent = userPrompts.length;
+            
+            if (userPrompts.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Belum ada prompt tersimpan</h4>
+                        <p>Prompt yang Anda buat akan otomatis tersimpan di sini</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = userPrompts.map(prompt => `
+                <div class="prompt-card user-prompt" data-prompt-id="${prompt.id}">
+                    <div class="prompt-header">
+                        <div class="prompt-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="prompt-actions">
+                            <button class="action-btn ${prompt.is_favorite ? 'favorited' : ''}" 
+                                    onclick="event.stopPropagation(); toggleUserFavorite('${prompt.id}')">
+                                <i class="${prompt.is_favorite ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                            <button class="action-btn" onclick="event.stopPropagation(); deleteUserPrompt('${prompt.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="prompt-content" onclick="copyUserPrompt('${prompt.id}')">
+                        <h4>Prompt #${prompt.id.slice(-4)}</h4>
+                        <p class="prompt-text">${prompt.text}</p>
+                        <div class="prompt-meta">
+                            <span class="usage-count">
+                                <i class="fas fa-sync"></i> ${prompt.usage_count}x
+                            </span>
+                            <span class="timestamp">
+                                <i class="fas fa-clock"></i> ${formatDate(prompt.timestamp)}
+                            </span>
+                        </div>
+                        <div class="prompt-tags">
+                            ${prompt.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Copy user prompt
+        function copyUserPrompt(promptId) {
+            const userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+            const prompt = userPrompts.find(p => p.id === promptId);
+            
+            if (prompt) {
+                navigator.clipboard.writeText(prompt.text).then(() => {
+                    globalNotification.success('Prompt berhasil disalin!');
+                    
+                    // Increment usage count
+                    prompt.usage_count++;
+                    localStorage.setItem('user_prompts', JSON.stringify(userPrompts));
+                    loadMyPrompts(); // Refresh display
+                });
+            }
+        }
+
+        // Toggle favorite
+        function toggleUserFavorite(promptId) {
+            const userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+            const prompt = userPrompts.find(p => p.id === promptId);
+            
+            if (prompt) {
+                prompt.is_favorite = !prompt.is_favorite;
+                localStorage.setItem('user_prompts', JSON.stringify(userPrompts));
+                loadMyPrompts();
+                
+                globalNotification.success(prompt.is_favorite ? 'Ditambahkan ke favorit!' : 'Dihapus dari favorit!');
+            }
+        }
+
+        // Delete user prompt
+        function deleteUserPrompt(promptId) {
+            globalAlert.confirm(
+                'Hapus Prompt',
+                'Apakah Anda yakin ingin menghapus prompt ini?',
+                () => {
+                    let userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+                    userPrompts = userPrompts.filter(p => p.id !== promptId);
+                    localStorage.setItem('user_prompts', JSON.stringify(userPrompts));
+                    loadMyPrompts();
+                    
+                    globalNotification.success('Prompt berhasil dihapus!');
+                }
+            );
+        }
+
+        // Clear all prompts
+        function clearAllUserPrompts() {
+            globalAlert.confirm(
+                'Hapus Semua Prompt',
+                'Hapus semua prompt? Tindakan ini tidak dapat dibatalkan.',
+                () => {
+                    localStorage.removeItem('user_prompts');
+                    loadMyPrompts();
+                    globalNotification.success('Semua prompt berhasil dihapus!');
+                }
+            );
+        }
+
+        // Export prompts
+        function exportUserPrompts() {
+            const userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+            
+            if (userPrompts.length === 0) {
+                globalNotification.warning('Tidak ada prompt untuk diekspor!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(userPrompts, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `tkk-imagine-prompts-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            globalNotification.success('Prompts berhasil diekspor!');
+        }
+
+        // Format date
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             setupThemeSwitch();
             setupSearch();
+            
+            // Load user prompts
+            loadMyPrompts();
             
             // Initialize search clear button state
             const searchClear = document.getElementById('searchClear');
