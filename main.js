@@ -8,12 +8,6 @@ let selectedFilter = null;
 let selectedCyberpunkStyle = null;
 
 
-// Wait until DOM is fully loaded
-document.addEventListener("DOMContentLoaded", function() {
-  // Initialize theme
-  setInitialTheme();
-  
-});
  
         // Periksa apakah accessKey ada di sessionStorage
         //const accessKey = sessionStorage.getItem("accessKey");
@@ -270,13 +264,32 @@ function toggleAccordion(button) {
 
     
     // Theme switching
-   
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
     
     // Set the theme from localStorage or default
-    
+    function setInitialTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+    }
     
     // Initialize page elements
-  
+    document.addEventListener("DOMContentLoaded", () => {
+      // Set initial theme
+      setInitialTheme();
       
       // Add event listener to theme switch
       const themeSwitch = document.getElementById("themeSwitch");
@@ -319,7 +332,7 @@ function toggleAccordion(button) {
       // Load image history
       loadImageHistory();
       
-// End of DOMContentLoaded event listener
+    });
     
     // Select cyberpunk creator style from dropdown
     function selectCyberpunkStyle(selectEl) {
@@ -1664,3 +1677,9 @@ async function saveImageToHistory(imageUrl, prompt) {
         console.error('Gagal menyimpan gambar:', error);
     }
 }
+
+
+
+
+      
+    
