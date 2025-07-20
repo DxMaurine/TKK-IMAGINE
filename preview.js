@@ -403,9 +403,14 @@ function previewHistoryImage(imageUrl, theme = 'light') {
                     <label class="neumorphic-text" style="flex: 1;">Accent Color</label>
                   </div>
                   
-                  <button id="reset-all" class="neumorphic-btn secondary" style="width: 100%; margin-top: 8px;">
-                    Reset All Settings
-                  </button>
+                  <div style="display: flex; gap: 8px; margin-top: 8px;">
+                    <button id="save-accent" class="neumorphic-btn primary" style="flex: 1;">
+                      Save Accent
+                    </button>
+                    <button id="reset-all" class="neumorphic-btn secondary" style="flex: 1;">
+                      Reset Accent
+                    </button>
+                  </div>
 
                   <div class="admin-panel" style="margin-top: 8px; padding: 8px; border-radius: var(--border-radius); background: var(--bg-color); box-shadow: var(--box-shadow-concave);">
                     <h4 class="neumorphic-text" style="margin: 0 0 8px 0;">Admin Panel</h4>
@@ -825,24 +830,125 @@ accordions.forEach(accordion => {
   });
 });
 
-// Add default ambient light effect
-const defaultAmbientColor = '#0fa1e6'; // blue ambient color
-const modalElement = document.querySelector('.canvas-modal-content');
-if (modalElement) {
-  modalElement.style.boxShadow = `0 0 50px ${defaultAmbientColor}`;
+// ... existing code ...
+
+// Function to save accent color to localStorage
+function saveAccentColor() {
+  const accentColorInput = document.querySelector('#accent-color');
+  const selectedColor = accentColorInput.value;
+  
+  try {
+    // Save to localStorage
+    localStorage.setItem('savedAccentColor', selectedColor);
+    
+    // Update CSS variable permanently
+    document.documentElement.style.setProperty('--accent-color', selectedColor);
+    
+    // Update ambient light effect
+    const modalElement = document.querySelector('.canvas-modal-content');
+    if (modalElement) {
+      modalElement.style.boxShadow = `0 0 50px ${selectedColor}`;
+    }
+    
+    // Visual feedback on save button
+    const saveBtn = document.querySelector('#save-accent');
+    const originalText = saveBtn.textContent;
+    saveBtn.textContent = 'Saved!';
+    saveBtn.style.background = selectedColor;
+    
+    setTimeout(() => {
+      saveBtn.textContent = originalText;
+      saveBtn.style.background = '';
+    }, 1500);
+    
+    // Show success notification
+    showGlobalNotification('Accent color saved successfully!', 'success');
+    
+  } catch (error) {
+    console.error('Error saving accent color:', error);
+    showGlobalNotification('Failed to save accent color', 'error');
+  }
 }
 
-// Handle accent color change - updates both accent color and ambient light
+// Function to load saved accent color
+function loadSavedAccentColor() {
+  const savedColor = localStorage.getItem('savedAccentColor');
+  
+  if (savedColor) {
+    // Update CSS variable
+    document.documentElement.style.setProperty('--accent-color', savedColor);
+    
+    // Update color picker input
+    const accentColorInput = document.querySelector('#accent-color');
+    if (accentColorInput) {
+      accentColorInput.value = savedColor;
+    }
+    
+    // Update ambient light effect if modal exists
+    const modalElement = document.querySelector('.canvas-modal-content');
+    if (modalElement) {
+      modalElement.style.boxShadow = `0 0 50px ${savedColor}`;
+    }
+    
+    return savedColor;
+  }
+  
+  return '#0fa1e6'; // default color
+}
+
+// Modify the existing code where modal is created
+// Replace the existing ambient light code with this:
+
+// Load saved accent color and apply it immediately when modal opens
+const savedAccentColor = loadSavedAccentColor();
+
+// Apply ambient light effect with saved color
+const modalElement = document.querySelector('.canvas-modal-content');
+if (modalElement) {
+  modalElement.style.boxShadow = `0 0 50px ${savedAccentColor}`;
+}
+
+// Update the accent color input event listener
 document.querySelector('#accent-color').addEventListener('input', function(e) {
   const newColor = e.target.value;
+  
+  // Update CSS variable temporarily (preview)
   document.documentElement.style.setProperty('--accent-color', newColor);
   
-  // Update ambient light effect
+  // Update ambient light effect temporarily
   const modalElement = document.querySelector('.canvas-modal-content');
   if (modalElement) {
     modalElement.style.boxShadow = `0 0 50px ${newColor}`;
   }
 });
+
+// Add event listener for save accent button
+const saveAccentBtn = document.querySelector('#save-accent');
+if (saveAccentBtn) {
+  saveAccentBtn.addEventListener('click', saveAccentColor);
+}
+
+// Update reset all function
+document.querySelector('#reset-all').addEventListener('click', function() {
+  // Remove saved color from localStorage
+  localStorage.removeItem('savedAccentColor');
+  
+  // Reset to default
+  const defaultColor = '#0fa1e6';
+  document.documentElement.style.setProperty('--accent-color', defaultColor);
+  document.querySelector('#accent-color').value = defaultColor;
+  
+  // Update ambient light
+  const modalElement = document.querySelector('.canvas-modal-content');
+  if (modalElement) {
+    modalElement.style.boxShadow = `0 0 50px ${defaultColor}`;
+  }
+  
+  showGlobalNotification('Settings have been reset successfully!', 'success');
+});
+
+
+
 // Global notification function
 function showGlobalNotification(message, type = 'info', duration = 3000) {
   // Create notification container if it doesn't exist
@@ -934,3 +1040,4 @@ document.querySelector('#admin-login').addEventListener('click', function() {
 
   }
 }
+
