@@ -112,7 +112,6 @@ function previewHistoryImage(imageUrl, theme = 'light') {
             transform: translate(-50%, -50%);
             width: 90%;
             height: 100%;
-            background: var(--highlight-color);
             display: flex;
             justify-content: center;
             align-items: center;
