@@ -966,6 +966,9 @@ async function generateAiImage() {
         return;
     }
     
+    // 🔥 AUTO-SAVE PROMPT HERE!
+    autoSavePrompt(prompt);
+    
     // Store the original prompt for regeneration
     originalPrompt = prompt;
     
@@ -1595,6 +1598,156 @@ async function generateAiImage() {
         });
       }
     };
+
+// Auto-save prompt functions
+function autoSavePrompt(promptText) {
+    if (!promptText || promptText.trim() === '') return;
+    
+    let savedPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+    
+    // Check duplikasi (case insensitive)
+    const normalizedPrompt = promptText.trim().toLowerCase();
+    if (savedPrompts.some(p => p.text.toLowerCase() === normalizedPrompt)) {
+        console.log('✅ Prompt sudah ada, tidak disimpan ulang');
+        return;
+    }
+    
+    const newPrompt = {
+        id: Date.now().toString(),
+        text: promptText.trim(),
+        timestamp: new Date().toISOString(),
+        usage_count: 1,
+        is_favorite: false,
+        category: 'image',
+        tags: extractTagsFromPrompt(promptText)
+    };
+    
+    // Tambahkan di awal array (newest first)
+    savedPrompts.unshift(newPrompt);
+    
+    // 🔥 SMART LIMIT: Berdasarkan ukuran storage (2MB)
+    let currentSize = JSON.stringify(savedPrompts).length;
+    const maxSize = 2 * 1024 * 1024; // 2MB limit
+    
+    // Hapus prompt lama kalau melebihi batas ukuran
+    while (currentSize > maxSize && savedPrompts.length > 10) {
+        savedPrompts.pop(); // Hapus yang paling lama
+        currentSize = JSON.stringify(savedPrompts).length;
+    }
+    
+    // Safety net: Hard limit 300 prompts (untuk extreme cases)
+    if (savedPrompts.length > 300) {
+        savedPrompts = savedPrompts.slice(0, 300);
+    }
+    
+    localStorage.setItem('user_prompts', JSON.stringify(savedPrompts));
+    
+    // Show info ke user
+    const sizeKB = Math.round(currentSize / 1024);
+    console.log(`✅ Prompt saved! Total: ${savedPrompts.length} prompts (${sizeKB}KB)`);
+    
+    // Optional: Show notification to user
+    if (typeof globalNotif !== 'undefined') {
+        globalNotif.success(`Prompt tersimpan! (${savedPrompts.length} total, ${sizeKB}KB)`);
+    }
+}
+
+// Enhanced tag extraction untuk prompt gak beraturan
+function extractTagsFromPrompt(promptText) {
+    const advancedTags = {
+        'anime': ['anime', 'manga', 'kawaii', 'chibi', 'waifu', 'shounen', 'seinen', 'otaku'],
+        'fantasy': ['dragon', 'magic', 'wizard', 'fantasy', 'medieval', 'elf', 'dwarf', 'sword', 'castle'],
+        'cyberpunk': ['cyberpunk', 'neon', 'futuristic', 'cyber', 'android', 'matrix', 'hologram', 'tech'],
+        'nature': ['forest', 'mountain', 'ocean', 'underwater', 'tree', 'flower', 'landscape', 'sunset'],
+        'character': ['girl', 'boy', 'woman', 'man', 'hero', 'heroine', 'warrior', 'princess', 'person'],
+        'style': ['detailed', 'realistic', 'cartoon', 'sketch', 'painting', 'digital art', 'artwork'],
+        'mood': ['dark', 'bright', 'mysterious', 'cheerful', 'dramatic', 'peaceful', 'moody'],
+        'action': ['fighting', 'flying', 'running', 'dancing', 'swimming', 'diving', 'jumping'],
+        'portrait': ['portrait', 'face', 'headshot', 'close-up', 'facial'],
+        'landscape': ['landscape', 'scenery', 'vista', 'panorama', 'view']
+    };
+    
+    const tags = [];
+    const lowerPrompt = promptText.toLowerCase();
+    
+    // Check for category keywords
+    for (const [tag, keywords] of Object.entries(advancedTags)) {
+        if (keywords.some(keyword => lowerPrompt.includes(keyword))) {
+            tags.push(tag);
+        }
+    }
+    
+    // Detect prompt length category
+    if (promptText.length > 500) tags.push('detailed');
+    if (promptText.length > 1000) tags.push('epic');
+    if (promptText.length > 1500) tags.push('super-detailed');
+    
+    // Remove duplicates and limit to 4 tags
+    return [...new Set(tags)].slice(0, 4);
+}
+
+// Load user prompts
+function loadUserPrompts() {
+    return JSON.parse(localStorage.getItem('user_prompts') || '[]');
+}
+
+// Delete user prompt
+function deleteUserPrompt(promptId) {
+    let savedPrompts = loadUserPrompts();
+    savedPrompts = savedPrompts.filter(p => p.id !== promptId);
+    localStorage.setItem('user_prompts', JSON.stringify(savedPrompts));
+}
+
+// Toggle favorite prompt
+function toggleFavoritePrompt(promptId) {
+    let savedPrompts = loadUserPrompts();
+    const prompt = savedPrompts.find(p => p.id === promptId);
+    if (prompt) {
+        prompt.is_favorite = !prompt.is_favorite;
+        localStorage.setItem('user_prompts', JSON.stringify(savedPrompts));
+    }
+}
+
+// Increment usage count
+function incrementPromptUsage(promptId) {
+    let savedPrompts = loadUserPrompts();
+    const prompt = savedPrompts.find(p => p.id === promptId);
+    if (prompt) {
+        prompt.usage_count++;
+        localStorage.setItem('user_prompts', JSON.stringify(savedPrompts));
+    }
+}
+
+// Get storage info for monitoring
+function getStorageInfo() {
+    const userPrompts = JSON.parse(localStorage.getItem('user_prompts') || '[]');
+    const totalSize = JSON.stringify(userPrompts).length;
+    const sizeKB = Math.round(totalSize / 1024);
+    const sizeMB = Math.round(totalSize / (1024 * 1024) * 100) / 100;
+    const maxSizeMB = 2;
+    const usagePercent = Math.round((sizeMB / maxSizeMB) * 100);
+    
+    return {
+        totalPrompts: userPrompts.length,
+        totalSize: totalSize,
+        sizeKB: sizeKB,
+        sizeMB: sizeMB,
+        maxSizeMB: maxSizeMB,
+        usagePercent: usagePercent,
+        remainingMB: Math.round((maxSizeMB - sizeMB) * 100) / 100
+    };
+}
+
+// Console command untuk check storage (untuk debugging)
+function checkPromptStorage() {
+    const info = getStorageInfo();
+    console.log('📊 Prompt Storage Info:');
+    console.log(`📝 Total Prompts: ${info.totalPrompts}`);
+    console.log(`💾 Storage Used: ${info.sizeMB}MB / ${info.maxSizeMB}MB (${info.usagePercent}%)`);
+    console.log(`🆓 Remaining: ${info.remainingMB}MB`);
+    console.log(`📏 Average prompt size: ${Math.round(info.sizeKB / info.totalPrompts)}KB`);
+    return info;
+}
 
 // Fungsi untuk menyimpan ke sync gallery (untuk index.html)
 async function saveToSyncGallery(imageUrl, prompt) {
