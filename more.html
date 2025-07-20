@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKK IMAGEN - More</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="globalNotifContainer"></div>
+    <div id="globalAlertContainer"></div>
+    
+    <!-- Header dengan navbar -->
+    <div class="header-content">
+        <nav class="top-navbar">
+            <div class="brand">
+                <h1>🌿More...</h1>
+                <p class="tagline">Wujudkan Imajinasi jadi nyata</p>
+            </div>
+            <!-- Theme Switch -->
+            <div class="theme-switch-container">
+                <div class="theme-switch" id="themeSwitch">
+                    <div class="switch-handle"></div>
+                </div>
+                <span class="theme-label">Switch Theme</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- User Profile Section -->
+        <div class="profile-section">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h3 class="username">username@gmail.com</h3>
+                <p class="user-status">Premium Member</p>
+            </div>
+        </div>
+
+        <!-- Menu Sections -->
+        <div class="menu-sections">
+            <!-- Account Section -->
+            <div class="menu-section">
+                <h3 class="section-title">
+                    <i class="fas fa-user-cog"></i>
+                    Account
+                </h3>
+                <div class="menu-items">
+                    <div class="menu-item" onclick="manageSubscription()">
+                        <div class="menu-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>Manage Subscription</h4>
+                            <p>Kelola langganan premium Anda</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="shareProfile()">
+                        <div class="menu-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>Share Profile Link</h4>
+                            <p>Bagikan profil Anda ke teman</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item danger" onclick="deleteAccount()">
+                        <div class="menu-icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>Delete Account</h4>
+                            <p>Hapus akun secara permanen</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Information Section -->
+            <div class="menu-section">
+                <h3 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    Help & Information
+                </h3>
+                <div class="menu-items">
+                    <div class="menu-item" onclick="viewPrivacyPolicy()">
+                        <div class="menu-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>View Privacy Policy</h4>
+                            <p>Kebijakan privasi aplikasi</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="viewTermsOfService()">
+                        <div class="menu-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>View Terms of Service</h4>
+                            <p>Syarat dan ketentuan layanan</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="viewLicenseInfo()">
+                        <div class="menu-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="menu-content">
+                            <h4>View License Info (MIT)</h4>
+                            <p>Informasi lisensi perangkat lunak</p>
+                        </div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version Info -->
+            <div class="version-info">
+                <div class="version-item">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Version 3.8.0.1 (72)</span>
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-navbar">
+        <a href="index.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Home</span>
+        </a>
+        <a href="generate.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <span>Generate</span>
+        </a>
+        <a href="library.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+            <span>Library</span>
+        </a>
+        <a href="more.html" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+            <span>More</span>
+        </a>
+        <button class="scroll-top" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+    </nav>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-color: #ebebeb;
+            --bg-secondary: #d4d4d4;
+            --bg-tertiary: #c8c8c8;
+            --text-color: #333333;
+            --text-color-dark: #7c3aed;
+            --text-color-light: #666666;
+            --box-shadow-convex: 6px 6px 12px #c8c8c8, -6px -6px 12px #ffffff;
+            --box-shadow-concave: inset 6px 6px 12px #c8c8c8, inset -6px -6px 12px #ffffff;
+            --box-shadow-pressed: inset 4px 4px 8px #c8c8c8, inset -4px -4px 8px #ebebeb;
+            --border-color: rgba(235, 235, 235, 0.5);
+            --highlight-color: rgba(235, 235, 235, 0.9);
+            --border-radius: 16px;
+            --gradient-light: linear-gradient(135deg, #ebebeb, #d4d4d4);
+            --gradient-dark: linear-gradient(135deg, #d4d4d4, #ebebeb);
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            --accent-color: #3179ff;
+            --accent-secondary: #06b6d4;
+            --danger-color: #ef4444;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #202020;
+            --bg-secondary: #1f1f1f;
+            --bg-tertiary: #2d2d2d;
+            --text-color: #ffffff;
+            --text-color-dark: #009be2;
+            --text-color-light: #b0b0b0;
+            --box-shadow-convex: 6px 6px 12px #1a1a1a, -6px -6px 12px #262626;
+            --box-shadow-concave: inset 6px 6px 12px #1a1a1a, inset -6px -6px 12px #262626;
+            --box-shadow-pressed: inset 4px 4px 8px #1a1a1a, inset -4px -4px 8px #262626;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --highlight-color: rgba(255, 255, 255, 0.1);
+            --gradient-light: linear-gradient(135deg, #262626, #1f1f1f);
+            --gradient-dark: linear-gradient(135deg, #1f1f1f, #262626);
+            --accent-color: #3179ff;
+            --accent-secondary: #06b6d4;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-top: 7rem;
+            padding-bottom: 8rem;
+        }
+
+        /* Top Navbar Styles */
+        .top-navbar {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            box-shadow: var(--box-shadow-convex);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            text-align: center;
+        }
+
+        .brand h1 {
+            color: var(--text-color-dark);
+            font-size: 1.50rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-color-dark), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .brand .tagline {
+            color: var(--text-color-light);
+            font-size: 0.75rem;
+            margin: 0.5rem 0 0;
+            font-style: italic;
+            text-align: left;
+        }
+
+         /* Theme switch styles */
+        .theme-switch-container {
+            position: fixed; /* Changed from absolute to fixed */
+            top: 20px; /* Changed from bottom to top positioning */
+            right: 20px; /* Changed from left 50% to right positioning */
+            transform: none; /* Removed transform since we're using direct positioning */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1001; /* Increased z-index to stay above other elements */
+            background: var(--gradient-light);
+            padding: 8px 15px;
+            border-radius: 25px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch-container:hover {
+            transform: translateY(-2px); /* Simplified transform */
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .theme-switch {
+            width: 45px;
+            height: 22px;
+            background-color: var(--bg-tertiary);
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .switch-handle {
+            width: 18px;
+            height: 18px;
+            background: var(--gradient-light);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .switch-handle {
+            left: 26px;
+            background: var(--gradient-dark);
+        }
+
+        .theme-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Added sun and moon icons */
+        .theme-switch::before {
+            content: "☀️";
+            position: absolute;
+            left: 2px;
+            top: 3px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .theme-switch::after {
+            content: "🌙";
+            position: absolute;
+            right: 9px;
+            top: 3px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Responsive untuk theme switch */
+        @media (max-width: 768px) {
+            .theme-switch-container {
+                top: 15px; /* Adjusted for mobile */
+                right: 15px;
+                padding: 6px 12px;
+                gap: 8px;
+            }
+            
+            .theme-switch {
+                width: 60px;
+                height: 30px;
+            }
+            
+            .switch-handle {
+                width: 25px;
+                height: 25px;
+            }
+            
+            [data-theme="dark"] .switch-handle {
+                left: 31px;
+            }
+            
+            .theme-label {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-label {
+                display: none;
+            }
+            
+            .theme-switch-container {
+                padding: 8px;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow-convex);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-avatar {
+            font-size: 4rem;
+            color: var(--accent-color);
+        }
+
+        .profile-info h3 {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+        }
+
+        /* Menu Sections */
+        .menu-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .menu-section {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-color-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            box-shadow: var(--box-shadow-convex);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.3);
+        }
+
+        .menu-item:active {
+            transform: translateY(0);
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .menu-item.danger {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .menu-item.danger .menu-icon {
+            color: var(--danger-color);
+        }
+
+        .menu-icon {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-content {
+            flex: 1;
+        }
+
+        .menu-content h4 {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .menu-content p {
+            color: var(--text-color-light);
+            font-size: 0.85rem;
+        }
+
+        .menu-arrow {
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+        }
+
+        /* Version Info */
+        .version-info {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow-convex);
+            text-align: center;
+        }
+
+        .version-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+        }
+
+        .version-item i {
+            color: var(--accent-color);
+        }
+
+        /* Logout Section */
+        .logout-section {
+            margin-top: 1rem;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            box-shadow: var(--box-shadow-convex);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--danger-color);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.3);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+          /* Bottom Navigation */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            background: rgba(71, 71, 71, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item.active {
+            color: rgb(82, 183, 255);
+            text-shadow: 0 0 10px rgba(82, 183, 255, 0.5);
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover::before {
+            transform: scale(1);
+        }
+
+        .nav-item:hover {
+            color: rgb(82, 183, 255);
+            transform: translateY(-5px);
+            text-shadow: 0 0 10px rgba(82, 183, 255, 0.5);
+        }
+
+        .nav-item span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-top {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: floatButton 3s ease-in-out infinite;
+        }
+
+        .scroll-top:hover {
+            background: rgba(82, 183, 255, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 32px rgba(82, 183, 255, 0.3);
+            color: rgb(82, 183, 255);
+        }
+
+       
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .masonry-gallery {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 0 0.5rem 2rem 0.5rem;
+            }
+
+            .action-btn {
+                padding: 1.5rem 1rem;
+                min-height: 100px;
+            }
+
+            .btn-icon {
+                font-size: 2rem;
+                min-width: 50px;
+            }
+
+            .btn-content h3 {
+                font-size: 1.3rem;
+            }
+
+            .masonry-gallery {
+                column-count: 2;
+                column-gap: 10px;
+                padding: 0 10px;
+            }
+
+            .masonry-item {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-line {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .category-label {
+                justify-content: center;
+            }
+            
+            .category-divider {
+                display: none;
+            }
+            
+            .filter-dropdown {
+                align-self: center;
+            }
+
+            .action-btn {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+
+            .masonry-gallery {
+                column-count: 1;
+                padding: 0 5px;
+            }
+        }
+
+        /* Dark theme support */
+        [data-theme='dark'] .top-navbar {
+            background: var(--bg-secondary);
+        }
+
+        [data-theme='dark'] .brand h1 {
+            background: linear-gradient(135deg, var(--accent-color), var(--text-color-light));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        [data-theme='dark'] .brand .tagline {
+            color: var(--text-color-light);
+        }
+
+        /* Global Notification Styles */
+        #globalNotifContainer {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .global-notif {
+            background: var(--gradient-light);
+            color: var(--text-color);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .global-notif.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .global-notif.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .global-notif.error {
+            border-left: 4px solid #F44336;
+        }
+
+        .global-notif.info {
+            border-left: 4px solid #2196F3;
+        }
+
+        .global-notif.warning {
+            border-left: 4px solid #FF9800;
+        }
+
+        /* Global Alert Styles */
+        #globalAlertContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .global-alert {
+            background: var(--bg-secondary);
+            color: var(--text-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .global-alert h3 {
+            margin: 0 0 15px 0;
+            color: var(--text-color-dark);
+        }
+
+        .global-alert p {
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+        }
+
+        .global-alert-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .global-alert-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        .global-alert-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        .global-alert-btn.primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+
+    <script>
+        // Theme Switch Setup
+        function setupThemeSwitch() {
+            const themeSwitch = document.getElementById('themeSwitch');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            
+            // Set initial theme
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Theme switch click handler
+            themeSwitch.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Add animation effect
+                themeSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    themeSwitch.style.transform = 'scale(1)';
+                }, 150);
+            });
+        }
+
+        // Global Notification System
+        class GlobalNotification {
+            constructor() {
+                this.container = document.getElementById('globalNotifContainer');
+                if (!this.container) {
+                    this.container = document.createElement('div');
+                    this.container.id = 'globalNotifContainer';
+                    document.body.appendChild(this.container);
+                }
+            }
+
+            show(message, type = 'info', duration = 3000) {
+                const notif = document.createElement('div');
+                notif.className = `global-notif ${type}`;
+                
+                notif.innerHTML = `
+                    <span>${message}</span>
+                    <button class="global-notif-close" onclick="this.parentElement.remove()">&times;</button>
+                    <div class="global-notif-progress"></div>
+                `;
+                
+                this.container.appendChild(notif);
+                
+                // Trigger animation
+                setTimeout(() => notif.classList.add('show'), 10);
+                
+                // Auto remove
+                setTimeout(() => {
+                    if (notif.parentElement) {
+                        notif.classList.remove('show');
+                        setTimeout(() => notif.remove(), 300);
+                    }
+                }, duration);
+                
+                return notif;
+            }
+
+            success(message, duration) {
+                return this.show(message, 'success', duration);
+            }
+
+            error(message, duration) {
+                return this.show(message, 'error', duration);
+            }
+
+            warning(message, duration) {
+                return this.show(message, 'warning', duration);
+            }
+
+            info(message, duration) {
+                return this.show(message, 'info', duration);
+            }
+        }
+
+        // Global Alert System
+        class GlobalAlert {
+            constructor() {
+                this.container = document.getElementById('globalAlertContainer');
+                if (!this.container) {
+                    this.container = document.createElement('div');
+                    this.container.id = 'globalAlertContainer';
+                    document.body.appendChild(this.container);
+                }
+            }
+
+            alert(message, title = 'Pemberitahuan') {
+                return new Promise((resolve) => {
+                    this.container.innerHTML = `
+                        <div class="global-alert">
+                            <h3>${title}</h3>
+                            <p>${message}</p>
+                            <div class="global-alert-buttons">
+                                <button class="global-alert-btn primary" onclick="globalAlert.close(); globalAlert.resolveCallback();">OK</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    this.container.style.display = 'flex';
+                    this.resolveCallback = resolve;
+                });
+            }
+
+            confirm(message, title = 'Konfirmasi') {
+                return new Promise((resolve) => {
+                    this.container.innerHTML = `
+                        <div class="global-alert">
+                            <h3>${title}</h3>
+                            <p>${message}</p>
+                            <div class="global-alert-buttons">
+                                <button class="global-alert-btn" onclick="globalAlert.close(); globalAlert.resolveCallback(false);">Batal</button>
+                                <button class="global-alert-btn primary" onclick="globalAlert.close(); globalAlert.resolveCallback(true);">OK</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    this.container.style.display = 'flex';
+                    this.resolveCallback = resolve;
+                });
+            }
+
+            close() {
+                this.container.style.display = 'none';
+                this.container.innerHTML = '';
+            }
+        }
+
+        // Initialize global instances
+        const globalNotif = new GlobalNotification();
+        const globalAlert = new GlobalAlert();
+
+        // Menu Functions
+        async function manageSubscription() {
+            globalNotif.info('Mengarahkan ke halaman subscription...');
+            // TODO: Implementasi manage subscription
+        }
+
+        async function shareProfile() {
+            const profileLink = `${window.location.origin}/profile/username`;
+            try {
+                await navigator.clipboard.writeText(profileLink);
+                globalNotif.success('Link profil berhasil disalin!');
+            } catch (err) {
+                globalNotif.error('Gagal menyalin link profil');
+            }
+        }
+
+        async function deleteAccount() {
+            const confirmed = await globalAlert.confirm(
+                'Apakah Anda yakin ingin menghapus akun? Tindakan ini tidak dapat dibatalkan.',
+                'Hapus Akun'
+            );
+            
+            if (confirmed) {
+                globalNotif.warning('Fitur hapus akun akan segera tersedia');
+                // TODO: Implementasi delete account
+            }
+        }
+
+        function viewPrivacyPolicy() {
+            globalNotif.info('Membuka kebijakan privasi...');
+            // TODO: Implementasi view privacy policy
+        }
+
+        function viewTermsOfService() {
+            globalNotif.info('Membuka syarat dan ketentuan...');
+            // TODO: Implementasi view terms of service
+        }
+
+        function viewLicenseInfo() {
+            globalAlert.alert(
+                'TKK IMAGEN menggunakan lisensi MIT. Perangkat lunak ini bersifat open source dan dapat digunakan secara bebas.',
+                'Informasi Lisensi MIT'
+            );
+        }
+
+        async function logout() {
+            const confirmed = await globalAlert.confirm(
+                'Apakah Anda yakin ingin keluar dari akun?',
+                'Logout'
+            );
+            
+            if (confirmed) {
+                globalNotif.success('Berhasil logout. Mengarahkan ke halaman login...');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupThemeSwitch();
+        });
+
+        // Close alert with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && globalAlert.container.style.display === 'flex') {
+                globalAlert.close();
+                if (globalAlert.resolveCallback) {
+                    globalAlert.resolveCallback(null);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

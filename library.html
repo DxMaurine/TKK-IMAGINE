@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKK IMAGEN - Library</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="globalNotifContainer"></div>
+    <div id="globalAlertContainer"></div>
+    
+    <!-- Header dengan navbar -->
+    <div class="header-content">
+        <nav class="top-navbar">
+            <div class="brand">
+                <h1>🌿Library</h1>
+                <p class="tagline">Kumpulan Prompt Terbaik</p>
+            </div>
+            <!-- Theme Switch -->
+            <div class="theme-switch-container">
+                <div class="theme-switch" id="themeSwitch">
+                    <div class="switch-handle"></div>
+                </div>
+                <span class="theme-label">Switch Theme</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Cari prompt..." class="search-input">
+                <button class="search-clear" id="searchClear" onclick="clearSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all" onclick="filterCategory('all')">
+                <i class="fas fa-th"></i>
+                <span>Semua</span>
+            </button>
+            <button class="filter-btn" data-category="audio" onclick="filterCategory('audio')">
+                <i class="fas fa-volume-up"></i>
+                <span>Audio TTS</span>
+            </button>
+            <button class="filter-btn" data-category="video" onclick="filterCategory('video')">
+                <i class="fas fa-video"></i>
+                <span>Video</span>
+            </button>
+            <button class="filter-btn" data-category="image" onclick="filterCategory('image')">
+                <i class="fas fa-image"></i>
+                <span>Image</span>
+            </button>
+        </div>
+
+        <!-- Prompt Collections -->
+        <div class="prompt-collections">
+            <!-- Audio TTS Prompts -->
+            <div class="prompt-section" data-category="audio">
+                <h3 class="section-title">
+                    <i class="fas fa-volume-up"></i>
+                    Audio TTS Prompts
+                </h3>
+                <div class="prompt-grid">
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Narrator Profesional</h4>
+                            <p class="prompt-text">Buatlah narasi dengan suara yang jelas, intonasi yang tepat, dan tempo yang sesuai untuk dokumenter sejarah. Gunakan nada yang authoritative namun tetap engaging.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Dokumenter</span>
+                                <span class="tag">Profesional</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Storyteller Anak</h4>
+                            <p class="prompt-text">Ceritakan dongeng dengan suara yang ramah, ceria, dan penuh ekspresi. Gunakan intonasi yang bervariasi untuk membedakan karakter dan menciptakan suasana yang menyenangkan.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Dongeng</span>
+                                <span class="tag">Anak-anak</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Pengajar Online</h4>
+                            <p class="prompt-text">Sampaikan materi pembelajaran dengan suara yang jelas, sabar, dan mudah dipahami. Berikan penekanan pada poin-poin penting dan gunakan jeda yang tepat.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Edukasi</span>
+                                <span class="tag">Tutorial</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Prompts -->
+            <div class="prompt-section" data-category="video">
+                <h3 class="section-title">
+                    <i class="fas fa-video"></i>
+                    Video Prompts
+                </h3>
+                <div class="prompt-grid">
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Cinematic Landscape</h4>
+                            <p class="prompt-text">Create a breathtaking cinematic video of a mountain landscape at golden hour, with dramatic clouds, smooth camera movements, and epic orchestral music. 4K quality, professional color grading.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Cinematic</span>
+                                <span class="tag">Nature</span>
+                                <span class="tag">4K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Urban Timelapse</h4>
+                            <p class="prompt-text">Generate a dynamic timelapse video of a busy city street with flowing traffic, people walking, and changing lights from day to night. Include motion blur and vibrant colors.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Timelapse</span>
+                                <span class="tag">Urban</span>
+                                <span class="tag">Dynamic</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Fantasy Animation</h4>
+                            <p class="prompt-text">Create a magical fantasy animation with floating islands, mystical creatures, glowing particles, and ethereal music. Include smooth transitions and enchanting visual effects.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Fantasy</span>
+                                <span class="tag">Animation</span>
+                                <span class="tag">Magic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Generative Prompts -->
+            <div class="prompt-section" data-category="image">
+                <h3 class="section-title">
+                    <i class="fas fa-image"></i>
+                    Image Generative Prompts
+                </h3>
+                <div class="prompt-grid">
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Digital Art Portrait</h4>
+                            <p class="prompt-text">A stunning digital art portrait of a young woman with flowing hair, vibrant colors, soft lighting, detailed eyes, artistic brush strokes, fantasy style, high resolution, masterpiece quality.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Portrait</span>
+                                <span class="tag">Digital Art</span>
+                                <span class="tag">Fantasy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Futuristic Cityscape</h4>
+                            <p class="prompt-text">A breathtaking futuristic cityscape with towering skyscrapers, flying cars, neon lights, holographic displays, cyberpunk aesthetic, dramatic lighting, ultra-detailed, 8K resolution.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Sci-Fi</span>
+                                <span class="tag">Cyberpunk</span>
+                                <span class="tag">8K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Nature Photography</h4>
+                            <p class="prompt-text">A serene forest scene with sunlight filtering through tall trees, morning mist, vibrant green foliage, peaceful atmosphere, professional photography, natural lighting, high detail.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Nature</span>
+                                <span class="tag">Photography</span>
+                                <span class="tag">Peaceful</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Interior Design</h4>
+                            <p class="prompt-text">A modern minimalist living room with clean lines, neutral colors, natural lighting, comfortable furniture, plants, wooden accents, cozy atmosphere, architectural photography style.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Interior</span>
+                                <span class="tag">Modern</span>
+                                <span class="tag">Minimalist</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Food Photography</h4>
+                            <p class="prompt-text">A delicious gourmet dish beautifully plated, professional food photography, perfect lighting, vibrant colors, appetizing presentation, restaurant quality, macro details, mouth-watering.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Food</span>
+                                <span class="tag">Gourmet</span>
+                                <span class="tag">Professional</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-card" onclick="copyPrompt(this)">
+                        <div class="prompt-header">
+                            <div class="prompt-icon">
+                                <i class="fas fa-dragon"></i>
+                            </div>
+                            <div class="prompt-actions">
+                                <button class="action-btn" onclick="event.stopPropagation(); favoritePrompt(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn" onclick="event.stopPropagation(); sharePrompt(this)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="prompt-content">
+                            <h4>Fantasy Creature</h4>
+                            <p class="prompt-text">A majestic dragon with iridescent scales, powerful wings, glowing eyes, breathing fire, epic fantasy art style, detailed textures, dramatic lighting, mythical atmosphere, concept art quality.</p>
+                            <div class="prompt-tags">
+                                <span class="tag">Fantasy</span>
+                                <span class="tag">Dragon</span>
+                                <span class="tag">Epic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-navbar">
+        <a href="index.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Home</span>
+        </a>
+        <a href="generate.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <span>Generate</span>
+        </a>
+        <a href="library.html" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+            <span>Library</span>
+        </a>
+        <a href="more.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+            <span>More</span>
+        </a>
+        <button class="scroll-top" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+    </nav>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-color: #ebebeb;
+            --bg-secondary: #d4d4d4;
+            --bg-tertiary: #c8c8c8;
+            --text-color: #333333;
+            --text-color-dark: #7c3aed;
+            --text-color-light: #666666;
+            --box-shadow-convex: 6px 6px 12px #c8c8c8, -6px -6px 12px #ffffff;
+            --box-shadow-concave: inset 6px 6px 12px #c8c8c8, inset -6px -6px 12px #ffffff;
+            --box-shadow-pressed: inset 4px 4px 8px #c8c8c8, inset -4px -4px 8px #ebebeb;
+            --border-color: rgba(235, 235, 235, 0.5);
+            --highlight-color: rgba(235, 235, 235, 0.9);
+            --border-radius: 16px;
+            --gradient-light: linear-gradient(135deg, #ebebeb, #d4d4d4);
+            --gradient-dark: linear-gradient(135deg, #d4d4d4, #ebebeb);
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            --accent-color: #3179ff;
+            --accent-secondary: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #202020;
+            --bg-secondary: #1f1f1f;
+            --bg-tertiary: #2d2d2d;
+            --text-color: #ffffff;
+            --text-color-dark: #009be2;
+            --text-color-light: #b0b0b0;
+            --box-shadow-convex: 6px 6px 12px #1a1a1a, -6px -6px 12px #262626;
+            --box-shadow-concave: inset 6px 6px 12px #1a1a1a, inset -6px -6px 12px #262626;
+            --box-shadow-pressed: inset 4px 4px 8px #1a1a1a, inset -4px -4px 8px #262626;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --highlight-color: rgba(255, 255, 255, 0.1);
+            --gradient-light: linear-gradient(135deg, #262626, #1f1f1f);
+            --gradient-dark: linear-gradient(135deg, #1f1f1f, #262626);
+            --accent-color: #3179ff;
+            --accent-secondary: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-top: 7rem;
+            padding-bottom: 8rem;
+        }
+
+        /* Top Navbar Styles */
+        .top-navbar {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            box-shadow: var(--box-shadow-convex);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            text-align: center;
+        }
+
+        .brand h1 {
+            color: var(--text-color-dark);
+            font-size: 1.50rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-color-dark), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .brand .tagline {
+            color: var(--text-color-light);
+            font-size: 0.75rem;
+            margin: 0.5rem 0 0;
+            font-style: italic;
+            text-align: left;
+        }
+
+        /* Theme switch styles */
+        .theme-switch-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            transform: none;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1001;
+            background: var(--gradient-light);
+            padding: 8px 15px;
+            border-radius: 25px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .theme-switch {
+            width: 45px;
+            height: 22px;
+            background-color: var(--bg-tertiary);
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .switch-handle {
+            width: 18px;
+            height: 18px;
+            background: var(--gradient-light);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .switch-handle {
+            left: 26px;
+            background: var(--gradient-dark);
+        }
+
+        .theme-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch::before {
+            content: "☀️";
+            position: absolute;
+            left: 2px;
+            top: 3px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .theme-switch::after {
+            content: "🌙";
+            position: absolute;
+            right: 9px;
+            top: 3px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+        }
+
+        .search-icon {
+            padding: 0.8rem;
+            color: var(--text-color-light);
+            font-size: 1.1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0.8rem 0.5rem;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-color-light);
+        }
+
+        .search-clear {
+            background: none;
+            border: none;
+            padding: 0.8rem;
+            color: var(--text-color-light);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .search-clear:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-color);
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-btn {
+            background: var(--bg-secondary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.8rem 1.5rem;
+            box-shadow: var(--box-shadow-convex);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.3);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .filter-btn i {
+            font-size: 1rem;
+        }
+
+        /* Prompt Collections */
+        .prompt-collections {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .prompt-section {
+            display: block;
+        }
+
+        .prompt-section.hidden {
+            display: none;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-color-dark);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .prompt-card {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow-convex);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 12px 12px 24px rgba(0,0,0,0.15), -12px -12px 24px rgba(255,255,255,0.4);
+        }
+
+        .prompt-card:active {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            background: var(--bg-tertiary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        .prompt-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-color-light);
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        .action-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .action-btn.favorited {
+            color: var(--warning-color);
+        }
+
+        .prompt-content h4 {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .prompt-text {
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--bg-tertiary);
+            color: var(--text-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            box-shadow: var(--box-shadow-convex);
+        }
+
+        /* Bottom Navigation */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            background: rgba(71, 71, 71, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 12px;
+            min-width: 60px;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            color: #3179ff;
+            background: rgba(49, 121, 255, 0.2);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .scroll-top {
+            background: rgba(49, 121, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .scroll-top:hover {
+            background: rgba(49, 121, 255, 1);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .theme-switch-container {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                gap: 8px;
+            }
+            
+            .theme-switch {
+                width: 60px;
+                height: 30px;
+            }
+            
+            .switch-handle {
+                width: 25px;
+                height: 25px;
+            }
+            
+            [data-theme="dark"] .switch-handle {
+                left: 31px;
+            }
+            
+            .theme-label {
+                font-size: 11px;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .prompt-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .category-filter {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .bottom-navbar {
+                width: 95%;
+                padding: 12px;
+            }
+
+            .nav-item {
+                min-width: 50px;
+                padding: 6px 8px;
+            }
+
+            .nav-item svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .nav-item span {
+                font-size: 10px;
+            }
+
+            .scroll-top {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-label {
+                display: none;
+            }
+            
+            .theme-switch-container {
+                padding: 8px;
+            }
+
+            .brand h1 {
+                font-size: 1.3rem;
+            }
+
+            .brand .tagline {
+                font-size: 0.7rem;
+            }
+
+            .top-navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .prompt-card {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Copy notification */
+        .copy-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-convex);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+        }
+    </style>
+
+    <script>
+        // Global Notification System
+        class GlobalNotification {
+            constructor() {
+                this.container = document.getElementById('globalNotifContainer');
+                this.notifications = [];
+            }
+
+            show(message, type = 'info', duration = 3000) {
+                const notification = document.createElement('div');
+                notification.className = `global-notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <span class="notification-message">${message}</span>
+                        <button class="notification-close" onclick="globalNotification.close(this.parentElement.parentElement)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+
+                this.container.appendChild(notification);
+                this.notifications.push(notification);
+
+                // Show animation
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+
+                // Auto remove
+                if (duration > 0) {
+                    setTimeout(() => {
+                        this.close(notification);
+                    }, duration);
+                }
+
+                return notification;
+            }
+
+            close(notification) {
+                if (notification && notification.parentElement) {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.parentElement.removeChild(notification);
+                        }
+                        const index = this.notifications.indexOf(notification);
+                        if (index > -1) {
+                            this.notifications.splice(index, 1);
+                        }
+                    }, 300);
+                }
+            }
+
+            success(message, duration = 3000) {
+                return this.show(message, 'success', duration);
+            }
+
+            error(message, duration = 5000) {
+                return this.show(message, 'error', duration);
+            }
+
+            warning(message, duration = 4000) {
+                return this.show(message, 'warning', duration);
+            }
+
+            info(message, duration = 3000) {
+                return this.show(message, 'info', duration);
+            }
+        }
+
+        // Global Alert System
+        class GlobalAlert {
+            constructor() {
+                this.container = document.getElementById('globalAlertContainer');
+                this.currentAlert = null;
+            }
+
+            show(title, message, type = 'info', buttons = []) {
+                this.close(); // Close any existing alert
+
+                const alert = document.createElement('div');
+                alert.className = 'global-alert-overlay';
+                
+                const defaultButtons = buttons.length > 0 ? buttons : [
+                    { text: 'OK', action: () => this.close(), primary: true }
+                ];
+
+                const buttonHTML = defaultButtons.map(btn => 
+                    `<button class="alert-btn ${btn.primary ? 'primary' : ''}" onclick="${btn.action ? 'this.clickHandler = arguments[0]; this.clickHandler();' : 'globalAlert.close();'}">${btn.text}</button>`
+                ).join('');
+
+                alert.innerHTML = `
+                    <div class="global-alert ${type}">
+                        <div class="alert-header">
+                            <h3 class="alert-title">${title}</h3>
+                            <button class="alert-close" onclick="globalAlert.close()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="alert-body">
+                            <p class="alert-message">${message}</p>
+                        </div>
+                        <div class="alert-footer">
+                            ${buttonHTML}
+                        </div>
+                    </div>
+                `;
+
+                // Set up button click handlers
+                defaultButtons.forEach((btn, index) => {
+                    if (btn.action) {
+                        const button = alert.querySelectorAll('.alert-btn')[index];
+                        button.clickHandler = btn.action;
+                    }
+                });
+
+                this.container.appendChild(alert);
+                this.currentAlert = alert;
+
+                // Show animation
+                setTimeout(() => {
+                    alert.classList.add('show');
+                }, 100);
+
+                return alert;
+            }
+
+            close() {
+                if (this.currentAlert) {
+                    this.currentAlert.classList.remove('show');
+                    setTimeout(() => {
+                        if (this.currentAlert && this.currentAlert.parentElement) {
+                            this.currentAlert.parentElement.removeChild(this.currentAlert);
+                        }
+                        this.currentAlert = null;
+                    }, 300);
+                }
+            }
+
+            confirm(title, message, onConfirm, onCancel) {
+                return this.show(title, message, 'warning', [
+                    { text: 'Cancel', action: onCancel || (() => this.close()), primary: false },
+                    { text: 'Confirm', action: () => { onConfirm && onConfirm(); this.close(); }, primary: true }
+                ]);
+            }
+
+            success(title, message) {
+                return this.show(title, message, 'success');
+            }
+
+            error(title, message) {
+                return this.show(title, message, 'error');
+            }
+
+            warning(title, message) {
+                return this.show(title, message, 'warning');
+            }
+
+            info(title, message) {
+                return this.show(title, message, 'info');
+            }
+        }
+
+        // Initialize global instances
+        const globalNotification = new GlobalNotification();
+        const globalAlert = new GlobalAlert();
+
+        // Theme Switch Functionality
+        function setupThemeSwitch() {
+            const themeSwitch = document.getElementById('themeSwitch');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            
+            // Set initial theme
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            
+            // Theme switch click handler
+            themeSwitch.addEventListener('click', function() {
+                const isDark = document.documentElement.hasAttribute('data-theme');
+                
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                
+                // Add animation effect
+                themeSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    themeSwitch.style.transform = 'scale(1)';
+                }, 150);
+            });
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                filterPrompts(query);
+                
+                // Show/hide clear button
+                if (query.length > 0) {
+                    searchClear.style.opacity = '1';
+                    searchClear.style.pointerEvents = 'auto';
+                } else {
+                    searchClear.style.opacity = '0';
+                    searchClear.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            
+            searchInput.value = '';
+            searchClear.style.opacity = '0';
+            searchClear.style.pointerEvents = 'none';
+            filterPrompts('');
+        }
+
+        function filterPrompts(query) {
+            const promptCards = document.querySelectorAll('.prompt-card');
+            
+            promptCards.forEach(card => {
+                const title = card.querySelector('h4').textContent.toLowerCase();
+                const text = card.querySelector('.prompt-text').textContent.toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                
+                const matches = title.includes(query) || text.includes(query) || tags.includes(query);
+                
+                if (matches) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Hide sections with no visible cards
+            const sections = document.querySelectorAll('.prompt-section');
+            sections.forEach(section => {
+                const visibleCards = section.querySelectorAll('.prompt-card[style*="display: block"], .prompt-card:not([style*="display: none"])');
+                if (visibleCards.length === 0 && query.length > 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+        }
+
+        // Category filter functionality
+        function filterCategory(category) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const sections = document.querySelectorAll('.prompt-section');
+            
+            // Update active button
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show/hide sections
+            sections.forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+            
+            // Clear search when changing category
+            clearSearch();
+        }
+
+        // Copy prompt functionality
+        function copyPrompt(card) {
+            const promptText = card.querySelector('.prompt-text').textContent;
+            
+            navigator.clipboard.writeText(promptText).then(() => {
+                globalNotification.success('Prompt berhasil disalin ke clipboard!');
+                
+                // Add visual feedback
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 150);
+            }).catch(() => {
+                globalNotification.error('Gagal menyalin prompt. Silakan coba lagi.');
+            });
+        }
+
+        // Favorite prompt functionality
+        function favoritePrompt(button) {
+            const icon = button.querySelector('i');
+            const isFavorited = icon.classList.contains('fas');
+            
+            if (isFavorited) {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.classList.remove('favorited');
+                globalNotification.info('Prompt dihapus dari favorit');
+            } else {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.classList.add('favorited');
+                globalNotification.success('Prompt ditambahkan ke favorit');
+            }
+        }
+
+        // Share prompt functionality
+        function sharePrompt(button) {
+            const card = button.closest('.prompt-card');
+            const title = card.querySelector('h4').textContent;
+            const promptText = card.querySelector('.prompt-text').textContent;
+            
+            const shareText = `${title}\n\n${promptText}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: shareText
+                }).then(() => {
+                    globalNotification.success('Prompt berhasil dibagikan!');
+                }).catch(() => {
+                    // Fallback to clipboard
+                    copyToClipboard(shareText);
+                });
+            } else {
+                // Fallback to clipboard
+                copyToClipboard(shareText);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                globalNotification.success('Prompt disalin ke clipboard untuk dibagikan!');
+            }).catch(() => {
+                globalNotification.error('Gagal menyalin prompt. Silakan coba lagi.');
+            });
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Close alert with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                globalAlert.close();
+            }
+        });
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupThemeSwitch();
+            setupSearch();
+            
+            // Initialize search clear button state
+            const searchClear = document.getElementById('searchClear');
+            searchClear.style.opacity = '0';
+            searchClear.style.pointerEvents = 'none';
+        });
+    </script>
+</body>
+</html>
