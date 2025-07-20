@@ -32,11 +32,6 @@ function toggleAccordion(button) {
         item.classList.add('active');
     }
 }
-
-
-
-   
-    
     // Fungsi untuk menghasilkan prompt otomatis dari AI
     async function generateAiPrompt() {
         const aiPromptBtn = document.getElementById('aiPromptBtn');
@@ -52,7 +47,7 @@ function toggleAccordion(button) {
                 messages: [
                     {
                         role: "system",
-                        content: "Kamu adalah asisten yang membantu membuat prompt untuk generator gambar AI. Buatkan prompt acak yang kreatif dan detail. Prompt harus kompatibel dengan model flux, gptimage, dan turbo. Jangan berikan penjelasan atau respon, langsung berikan promptnya saja."
+                        content: "Kamu adalah asisten yang membantu membuat prompt untuk generator gambar AI. Buatkan prompt acak yang kreatif dan detail. Prompt harus kompatibel khususnya untuk model flux, gptimage, dan turbo. Jangan berikan penjelasan atau respon, langsung berikan promptnya saja."
                     },
                     {
                         role: "user",
@@ -66,7 +61,7 @@ function toggleAccordion(button) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer IU6OBB-pF3hKZVWC'
+                    'Authorization': 'Bearer ' + atob('SVU2T0JCLXBGM2hLWlZXQw==')
                 },
                 body: JSON.stringify(data)
             };
@@ -1140,6 +1135,7 @@ async function generateAiImage() {
         // Simpan gambar ke history
         for (let i = 0; i < currentImageUrls.length; i++) {
             saveImageToHistory(currentImageUrls[i], originalPrompt);
+            
         }
         
         // Update generation count only once for the batch
@@ -1179,6 +1175,7 @@ async function generateAiImage() {
                 
                 initialMessage.hidden = false;
                 resultImageContainer.removeChild(loadingIndicator);
+                
             }
         }
         
@@ -1568,7 +1565,7 @@ async function generateAiImage() {
     }
       
 
-      
+      // Fungsi untuk menyimpan semua gambar hasil ke history
     function saveAllResultImagesToHistory() {
       const historyGrid = document.getElementById('historyGrid');
     
@@ -1580,6 +1577,7 @@ async function generateAiImage() {
           cloneImg.alt = `Generated Image ${i}`;
           cloneImg.onclick = () => previewImage(cloneImg); // Optional preview
           historyGrid.appendChild(cloneImg);
+          historyGrid.push(cloneImg);
         }
       }
     }
@@ -1598,7 +1596,7 @@ async function generateAiImage() {
       }
     };
 
-// Fungsi untuk menyimpan ke sync gallery (untuk home.html)
+// Fungsi untuk menyimpan ke sync gallery (untuk index.html)
 async function saveToSyncGallery(imageUrl, prompt) {
     try {
         const userIP = await getUserIP();
@@ -1652,7 +1650,7 @@ async function saveImageToHistory(imageUrl, prompt) {
         const timestamp = new Date().getTime();
         imageHistory.push({
             url: imageUrl,
-            prompt: prompt || "Tidak ada deskripsi",
+            prompt: prompt || "Tidak ada deskripsi", 
             timestamp: timestamp
         });
         
@@ -1667,8 +1665,11 @@ async function saveImageToHistory(imageUrl, prompt) {
         
         // Simpan ke localStorage
         localStorage.setItem(`imageHistory_${userIP}`, JSON.stringify(imageHistory));
+
+        // Update history grid display
+        loadImageHistory();
         
-        // TAMBAHAN: Simpan juga ke sync gallery untuk home.html
+        // Save to sync gallery for index.html
         await saveToSyncGallery(imageUrl, prompt);
         
         console.log('Gambar berhasil disimpan ke history dan sync gallery');
