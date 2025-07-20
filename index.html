@@ -1009,6 +1009,7 @@
     
 
 
+
             // Video button click handler
             document.querySelector('.video-btn').addEventListener('click', function() {
                 globalAlert.alert('Fitur Video akan segera hadir!');
@@ -1081,29 +1082,48 @@
 
 
 
-        // Theme Switch Setup
-        function setupThemeSwitch() {
-            const themeSwitch = document.getElementById('themeSwitch');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            
-            // Set initial theme
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            
-            // Theme switch click handler
-            themeSwitch.addEventListener('click', function() {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                
-                // Add animation effect
-                themeSwitch.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    themeSwitch.style.transform = 'scale(1)';
-                }, 150);
-            });
+// Theme Switch Setup
+function setupThemeSwitch() {
+    const themeSwitch = document.getElementById('themeSwitch');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Get theme from localStorage or system preference
+    let currentTheme = localStorage.getItem('theme');
+    if (!currentTheme) {
+        currentTheme = prefersDarkScheme.matches ? 'dark' : 'light';
+    }
+    
+    // Set initial theme
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // Theme switch click handler
+    themeSwitch.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Update theme
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Add animation effect
+        themeSwitch.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            themeSwitch.style.transform = 'scale(1)';
+        }, 150);
+        
+        // Show notification
+        const notification = new GlobalNotification();
+        notification.info(`Theme switched to ${newTheme} mode`);
+    });
+    
+    // Listen for system theme changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
         }
+    });
+}
 
         // Sistem Notifikasi Global
         class GlobalNotification {
