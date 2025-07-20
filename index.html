@@ -1084,7 +1084,7 @@
         // Theme Switch Setup
         function setupThemeSwitch() {
             const themeSwitch = document.getElementById('themeSwitch');
-            const currentTheme = localStorage.getItem('theme') || 'light';
+            const currentTheme = Storage.getItem('theme') || 'light';
             
             // Set initial theme
             document.documentElement.setAttribute('data-theme', currentTheme);
