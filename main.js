@@ -271,27 +271,25 @@ function toggleAccordion(button) {
     
     // Theme switching
     function toggleTheme() {
-      const body = document.body;
-      const currentTheme = body.getAttribute('data-theme');
-      
-      if (currentTheme === 'dark') {
-        body.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'yellow');
-      } else {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
     }
     
     // Set the theme from localStorage or default
     function setInitialTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-      } else {
-        // Default theme is yellow (no data-theme attribute)
-        document.body.removeAttribute('data-theme');
-      }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
     }
     
     // Initialize page elements
