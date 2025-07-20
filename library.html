@@ -1454,10 +1454,6 @@
                     { text: 'OK', action: () => this.close(), primary: true }
                 ];
 
-                const buttonHTML = defaultButtons.map(btn => 
-                    `<button class="alert-btn ${btn.primary ? 'primary' : ''}" onclick="${btn.action ? 'this.clickHandler = arguments[0]; this.clickHandler();' : 'globalAlert.close();'}">${btn.text}</button>`
-                ).join('');
-
                 alert.innerHTML = `
                     <div class="global-alert ${type}">
                         <div class="alert-header">
@@ -1470,16 +1466,22 @@
                             <p class="alert-message">${message}</p>
                         </div>
                         <div class="alert-footer">
-                            ${buttonHTML}
+                            ${defaultButtons.map((btn, index) => 
+                                `<button class="alert-btn ${btn.primary ? 'primary' : ''}" data-btn-index="${index}">${btn.text}</button>`
+                            ).join('')}
                         </div>
                     </div>
                 `;
 
-                // Set up button click handlers
+                // Set up button click handlers properly
                 defaultButtons.forEach((btn, index) => {
-                    if (btn.action) {
-                        const button = alert.querySelectorAll('.alert-btn')[index];
-                        button.clickHandler = btn.action;
+                    const button = alert.querySelector(`[data-btn-index="${index}"]`);
+                    if (button && btn.action) {
+                        button.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            btn.action();
+                        });
                     }
                 });
 
@@ -1508,8 +1510,8 @@
 
             confirm(title, message, onConfirm, onCancel) {
                 return this.show(title, message, 'warning', [
-                    { text: 'Cancel', action: onCancel || (() => this.close()), primary: false },
-                    { text: 'Confirm', action: () => { onConfirm && onConfirm(); this.close(); }, primary: true }
+                    { text: 'Batal', action: onCancel || (() => this.close()), primary: false },
+                    { text: 'Konfirmasi', action: () => { onConfirm && onConfirm(); this.close(); }, primary: true }
                 ]);
             }
 
