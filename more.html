@@ -6,6 +6,40 @@
     <title>TKK IMAGEN - More</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Firebase config - SAMA DENGAN LOGIN.HTML
+        const firebaseConfig = {
+            apiKey: "AIzaSyAf4xoCyXJXkqQ0qstXwaxnanhtcXkl-vk",
+            authDomain: "auth.visi.biz.id",
+            projectId: "tkk-auth-76381",
+            storageBucket: "tkk-auth-76381.firebasestorage.app",
+            messagingSenderId: "795380166766",
+            appId: "1:795380166766:web:4f9ed4f733407aa346367f"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+        
+        // Set custom parameters
+        googleProvider.setCustomParameters({
+            prompt: 'select_account'
+        });
+        
+        // Make auth available globally
+        window.firebaseAuth = auth;
+        window.googleProvider = googleProvider;
+        window.signInWithPopup = signInWithPopup;
+        window.signOut = signOut;
+        window.onAuthStateChanged = onAuthStateChanged;
+    </script>
 </head>
 <body>
     <div id="globalNotifContainer"></div>
@@ -31,13 +65,22 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- User Profile Section -->
-        <div class="profile-section">
-            <div class="profile-avatar">
-                <i class="fas fa-user-circle"></i>
+        <div class="profile-section" id="profileSection">
+            <!-- Authenticated User Profile -->
+            <div class="profile-avatar" id="userProfile" style="display: none;">
+                <img id="userAvatar" src="" alt="User Avatar" class="avatar-img">
             </div>
-            <div class="profile-info">
-                <h3 class="username">username@gmail.com</h3>
-                <p class="user-status">Premium Member</p>
+            <div class="profile-info" id="userInfo" style="display: none;">
+                <h3 class="username" id="userEmail">Loading...</h3>
+                <p class="user-status" id="userStatus">Premium Member</p>
+            </div>
+            
+            <!-- Login Button (when not authenticated) -->
+            <div class="login-section" id="loginSection">
+                <button class="google-login-btn" id="googleLoginBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Login dengan Google</span>
+                </button>
             </div>
         </div>
 
@@ -147,11 +190,11 @@
                 </div>
             </div>
 
-            <!-- Logout Button -->
+            <!-- Logout/Login Button -->
             <div class="logout-section">
-                <button class="logout-btn" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                <button class="logout-btn" id="authButton" onclick="handleAuthAction()">
+                    <i class="fas fa-sign-in-alt" id="authIcon"></i>
+                    <span id="authText">Login dengan Google</span>
                 </button>
             </div>
         </div>
@@ -419,6 +462,56 @@
         .profile-avatar {
             font-size: 4rem;
             color: var(--accent-color);
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+        }
+
+        .login-section {
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .google-login-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow-convex);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .google-login-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-login-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--box-shadow-pressed);
+        }
+
+        .google-login-btn i {
+            color: white;
+            font-size: 1.2rem;
         }
 
         .profile-info h3 {
@@ -1065,6 +1158,123 @@
             );
         }
 
+        // Authentication state management
+        let isAuthenticated = false;
+        let currentUser = null;
+
+        // Firebase Auth State Listener
+        function initializeAuth() {
+            if (window.firebaseAuth && window.onAuthStateChanged) {
+                window.onAuthStateChanged(window.firebaseAuth, (user) => {
+                    if (user) {
+                        // User is signed in
+                        currentUser = {
+                            uid: user.uid,
+                            email: user.email,
+                            displayName: user.displayName,
+                            photoURL: user.photoURL
+                        };
+                        isAuthenticated = true;
+                        updateUIForAuthenticatedUser();
+                        
+                        // Sync with localStorage untuk kompatibilitas
+                        localStorage.setItem('userInfo', JSON.stringify(currentUser));
+                    } else {
+                        // User is signed out
+                        currentUser = null;
+                        isAuthenticated = false;
+                        updateUIForUnauthenticatedUser();
+                        
+                        // Clear localStorage
+                        localStorage.removeItem('userInfo');
+                    }
+                });
+            }
+        }
+
+        function checkAuthState() {
+            // Firebase onAuthStateChanged akan handle ini
+            // Fallback untuk kompatibilitas
+            const userData = localStorage.getItem('userInfo');
+            if (userData && !currentUser) {
+                try {
+                    currentUser = JSON.parse(userData);
+                    isAuthenticated = true;
+                    updateUIForAuthenticatedUser();
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    localStorage.removeItem('userInfo');
+                }
+            }
+        }
+
+        function updateUIForAuthenticatedUser() {
+            // Show user profile
+            document.getElementById('userProfile').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('loginSection').style.display = 'none';
+            
+            // Update profile info
+            if (currentUser) {
+                document.getElementById('userEmail').textContent = currentUser.email || currentUser.displayName || 'User';
+                const avatarImg = document.getElementById('userAvatar');
+                if (currentUser.photoURL) {
+                    avatarImg.src = currentUser.photoURL;
+                } else {
+                    avatarImg.src = 'https://via.placeholder.com/80?text=' + (currentUser.displayName ? currentUser.displayName.charAt(0) : 'U');
+                }
+            }
+            
+            // Update auth button to logout
+            document.getElementById('authIcon').className = 'fas fa-sign-out-alt';
+            document.getElementById('authText').textContent = 'Logout';
+        }
+
+        function updateUIForUnauthenticatedUser() {
+            // Hide user profile
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+            
+            // Update auth button to login
+            document.getElementById('authIcon').className = 'fas fa-sign-in-alt';
+            document.getElementById('authText').textContent = 'Login dengan Google';
+        }
+
+        async function handleAuthAction() {
+            if (isAuthenticated) {
+                await logout();
+            } else {
+                await login();
+            }
+        }
+
+        async function login() {
+            try {
+                globalNotif.info('Memproses login...');
+                const result = await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
+                const user = result.user;
+                
+                globalNotif.success(`Selamat datang, ${user.displayName || user.email}!`);
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                let errorMsg = 'Terjadi kesalahan saat login';
+                switch (error.code) {
+                    case 'auth/popup-closed-by-user':
+                        errorMsg = 'Login dibatalkan oleh pengguna';
+                        break;
+                    case 'auth/popup-blocked':
+                        errorMsg = 'Popup diblokir browser. Silakan izinkan popup untuk situs ini';
+                        break;
+                    default:
+                        errorMsg = `Login gagal: ${error.message}`;
+                }
+                
+                globalNotif.error(errorMsg);
+            }
+        }
+
         async function logout() {
             const confirmed = await globalAlert.confirm(
                 'Apakah Anda yakin ingin keluar dari akun?',
@@ -1072,10 +1282,13 @@
             );
             
             if (confirmed) {
-                globalNotif.success('Berhasil logout. Mengarahkan ke halaman login...');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
+                try {
+                    await window.signOut(window.firebaseAuth);
+                    globalNotif.success('Berhasil logout.');
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    globalNotif.error('Gagal logout. Silakan coba lagi.');
+                }
             }
         }
 
@@ -1089,6 +1302,15 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             setupThemeSwitch();
+            
+            // Initialize Firebase Auth
+            setTimeout(() => {
+                initializeAuth();
+                checkAuthState();
+            }, 100);
+            
+            // Setup Google login button
+            document.getElementById('googleLoginBtn').addEventListener('click', login);
         });
 
         // Close alert with ESC key
