@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAf4xoCyXJXkqQ0qstXwaxnanhtcXkl-vk",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "auth.visi.biz.id",
   projectId: "tkk-auth-76381",
   storageBucket: "tkk-auth-76381.firebasestorage.app",
