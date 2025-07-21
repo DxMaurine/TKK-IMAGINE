@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKK IMAGEN - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+</head>
+<body>
+    <div id="globalNotifContainer"></div>
+    <div id="globalAlertContainer"></div>
+
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>🌿 TKK IMAGEN</h1>
+                <p>Masuk untuk melanjutkan</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <button id="googleLoginBtn" class="google-login-btn">
+                <div id="loginSpinner" class="loading-spinner"></div>
+                <i id="googleIcon" class="fab fa-google"></i>
+                <span id="loginText">Masuk dengan Google</span>
+            </button>
+
+            <div class="divider">
+                <span>atau</span>
+            </div>
+
+            <a href="index.html" class="back-to-home">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Beranda
+            </a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase configuration
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    
+        // Firebase config - SUDAH BENAR
+        const firebaseConfig = {
+            apiKey: "AIzaSyAf4xoCyXJXkqQ0qstXwaxnanhtcXkl-vk",
+            authDomain: "auth.visi.biz.id",
+            projectId: "tkk-auth-76381",
+            storageBucket: "tkk-auth-76381.firebasestorage.app",
+            messagingSenderId: "795380166766",
+            appId: "1:795380166766:web:4f9ed4f733407aa346367f"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+        
+        // Set custom parameters
+        googleProvider.setCustomParameters({
+            prompt: 'select_account'
+        });
+
+        // DOM elements
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const googleIcon = document.getElementById('googleIcon');
+        const loginText = document.getElementById('loginText');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Global Notification System (simplified)
+        class SimpleNotification {
+            show(message, type = 'info') {
+                if (type === 'error') {
+                    errorMessage.textContent = message;
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                } else if (type === 'success') {
+                    successMessage.textContent = message;
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                }
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+
+            error(message) {
+                this.show(message, 'error');
+            }
+
+            success(message) {
+                this.show(message, 'success');
+            }
+        }
+
+        const notification = new SimpleNotification();
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to main app
+                notification.success('Anda sudah login. Mengarahkan ke aplikasi...');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        });
+
+        // Google Sign In function
+        async function signInWithGoogle() {
+            try {
+                // Show loading state
+                setLoadingState(true);
+                
+                const result = await signInWithPopup(auth, googleProvider);
+                const user = result.user;
+                
+                // Success
+                notification.success(`Selamat datang, ${user.displayName}!`);
+                
+                // Store user info in localStorage for quick access
+                localStorage.setItem('userInfo', JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL
+                }));
+                
+                // Redirect to main app
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                setLoadingState(false);
+                
+                // Handle specific error cases
+                let errorMsg = 'Terjadi kesalahan saat login';
+                
+                switch (error.code) {
+                    case 'auth/popup-closed-by-user':
+                        errorMsg = 'Login dibatalkan oleh pengguna';
+                        break;
+                    case 'auth/popup-blocked':
+                        errorMsg = 'Popup diblokir browser. Silakan izinkan popup untuk situs ini';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMsg = 'Koneksi internet bermasalah. Silakan coba lagi';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Terlalu banyak percobaan login. Silakan coba lagi nanti';
+                        break;
+                    default:
+                        errorMsg = `Login gagal: ${error.message}`;
+                }
+                
+                notification.error(errorMsg);
+            }
+        }
+
+        // Set loading state
+        function setLoadingState(isLoading) {
+            googleLoginBtn.disabled = isLoading;
+            
+            if (isLoading) {
+                loginSpinner.style.display = 'block';
+                googleIcon.style.display = 'none';
+                loginText.textContent = 'Memproses...';
+            } else {
+                loginSpinner.style.display = 'none';
+                googleIcon.style.display = 'block';
+                loginText.textContent = 'Masuk dengan Google';
+            }
+        }
+
+        // Event listeners
+        googleLoginBtn.addEventListener('click', signInWithGoogle);
+
+        // Handle Enter key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !googleLoginBtn.disabled) {
+                signInWithGoogle();
+            }
+        });
+
+        // Theme detection and application
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        // Initialize theme
+        applyTheme();
+    </script>
+
+    <!-- Global styles for notifications -->
+    <style>
+        #globalNotifContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        #globalAlertContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+    </style>
+</body>
+</html>
